@@ -7,11 +7,20 @@ class RegisterTwo extends Component {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
+    this.updateStatus = this.updateStatus.bind(this);
+    this.updateOptionsRoles = this.updateOptionsRoles.bind(this);
+    this.updateOptionsTechniques = this.updateOptionsTechniques.bind(this);
+    this.updateOptionsLanguages = this.updateOptionsLanguages.bind(this);
+    this.updateOptionsApplications = this.updateOptionsApplications.bind(this);
+    this.updateOptionsDatabase = this.updateOptionsDatabase.bind(this);
     this.state = {
       optionsRoles: ['Project leader', 'Scrum master', 'Developer'],
       optionsTechniques: ['.NET', 'Angular.js', 'MVC', 'AJAX', 'jQuery', 'LINQ', 'WCF', 'WPF', 'Silverlight', 'React.js', 'Vue.js', 'Node.js', 'Express', 'MongoDb', 'Mongoose'],
       optionsLanguages: ['Javascript', 'C#', 'C++', 'Java', 'Python', 'Ruby', 'PHP'],
-      optionsStatus: ['Available', 'Not available']
+      optionsStatus: ['Available', 'Not available'],
+      optionsApplications: [],
+      optionsDatabase: [],
+      status: 'Status'
     }
   }
   render() {
@@ -23,13 +32,31 @@ class RegisterTwo extends Component {
         </div>
         <div className="flexCenter">
           <div className="r2formContainer">
-            <Dropdown title="Roles" options={this.state.optionsRoles}/>
-            <Dropdown title="Techniques" options={this.state.optionsTechniques}/>
-            <Dropdown title="Languages" options={this.state.optionsLanguages}/>
-            <Dropdown title="Applications" options={[]}/>
-            <Dropdown title="Database" options={[]}/>
-            <Dropdown title="Methods" options={[]}/>
-            <Select title="Status" options={this.state.optionsStatus}/>
+            <div>
+              <span>Specify your current status</span>
+              <Select updateStatus={this.updateStatus} title={this.state.status} options={this.state.optionsStatus}/>
+            </div>
+            <div>
+              <span>Previous roles</span>
+              <Dropdown title="Roles" options={this.state.optionsRoles} updateOptions={this.updateOptionsRoles}/>
+            </div>
+            <div>
+              <span>Techniques you can handle</span>
+              <Dropdown title="Techniques" options={this.state.optionsTechniques} updateOptions={this.updateOptionsTechniques}/>
+            </div>
+            <div>
+              <span>Languages you know</span>
+              <Dropdown title="Languages" options={this.state.optionsLanguages} updateOptions={this.updateOptionsLanguages}/>
+            </div>
+            <div>
+              <span>Applications knowlegde</span>
+              <Dropdown title="Applications" options={this.state.optionsApplications} updateOptions={this.updateOptionsApplications}/>
+            </div>
+            <div>
+              <span>Database knowlegde</span>
+              <Dropdown title="Database" options={this.state.optionsDatabase} updateOptions={this.updateOptionsDatabase}/>
+            </div>
+            {/* <Dropdown title="Methods" options={[]}/> */}
           </div>
         </div>
         <div className="flexRight">
@@ -41,6 +68,52 @@ class RegisterTwo extends Component {
 
   handleClick() {
     this.props.updateView('registerThree');
+  }
+
+  updateStatus(status) {
+    this.setState({
+      status: status
+    });
+  }
+
+  updateOptionsRoles(option) {
+    let options = this.state.optionsRoles;
+    options.push(option);
+    this.setState({
+      optionsRoles: options
+    });
+  }
+
+  updateOptionsTechniques(option) {
+    let options = this.state.optionsTechniques;
+    options.push(option);
+    this.setState({
+      optionsTechniques: options
+    });
+  }
+
+  updateOptionsLanguages(option) {
+    let options = this.state.optionsLanguages;
+    options.push(option);
+    this.setState({
+      optionsLanguages: options
+    });
+  }
+
+  updateOptionsApplications(option) {
+    let options = this.state.optionsApplications;
+    options.push(option);
+    this.setState({
+      optionsApplications: options
+    });
+  }
+
+  updateOptionsDatabase(option) {
+    let options = this.state.optionsDatabase;
+    options.push(option);
+    this.setState({
+      optionsDatabase: options
+    });
   }
 }
 

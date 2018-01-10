@@ -6,24 +6,29 @@ class Select extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      active: false
+      active: false,
+      activeClass: 'drpdwn-content',
+      icon: 'keyboard_arrow_down'
     };
-    this.toggleMenu = this.toggleMenu.bind(this);
+    this.toggleDropdown = this.toggleDropdown.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
   render() {
     let view;
     let options = this.props.options.map(o => {
-      return <div key={o} className="drpdwn-option">{o}</div>
+      return <div key={o} className="drpdwn-option" onClick={this.handleClick}>{o}</div>
     })
-    if (!this.state.active) {
-      view = <div className="drpdwn-head">{this.props.title} <i className="material-icons icon" onClick={this.toggleMenu}>keyboard_arrow_down</i></div>;
-    } else {
-      view = <div><div className="drpdwn-head">{this.props.title} <i className="material-icons icon" onClick={this.toggleMenu}>keyboard_arrow_up</i></div>
-      <ul className="drpdwn-content">
+    view = 
+    <div>
+      <div className="drpdwn-head">{this.props.title} 
+        <button className="iconBtn" onClick={this.toggleDropdown}>
+          <i className="material-icons icon" >{this.state.icon}</i>
+        </button>
+      </div>
+      <ul className={this.state.activeClass}>
         {options}
       </ul>
-      </div>
-    }
+    </div>;
     return (
       <div>
         {view}
@@ -31,12 +36,23 @@ class Select extends Component {
     );
   }
 
-  toggleMenu(ev) {
+  toggleDropdown(ev) {
     let active = !this.state.active;
+    let className;
+    let icon;
+    active ? className = 'drpdwn-content drpdwn-active' : className = 'drpdwn-content';
+    active ? icon = 'keyboard_arrow_up' : icon = 'keyboard_arrow_down';
     this.setState({
-      active: active
+      active: active,
+      activeClass: className,
+      icon: icon
     });
-    // console.log(this.state.active);
+  }
+  
+  handleClick(ev) {
+    // console.log(ev.target.innerHTML);
+    this.props.updateStatus(ev.target.innerHTML);
+    this.toggleDropdown();
   }
 }
 
