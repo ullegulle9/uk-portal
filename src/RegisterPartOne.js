@@ -20,10 +20,10 @@ class RegisterOne extends Component {
               <input type="text" name="lastname" placeholder="Last name" className="inputText"/>
             </div>
             <div>
-              <input type="text" name="email" placeholder="Email address" className="inputText"/>
+              <input type="email" name="email" placeholder="Email address" className="inputText"/>
             </div>
             <div>
-              <input type="text" name="emailCopy" placeholder="Repeat email address" className="inputText"/>
+              <input type="email" name="emailCopy" placeholder="Repeat email address" className="inputText"/>
             </div>
             <div>
               <input type="password" placeholder="Password" className="inputText"/>

@@ -71,6 +71,10 @@ class RegisterTwo extends Component {
               <span>Database knowlegde</span>
               <Dropdown updateChecked={this.updateCheckedDatabase} title="Database" options={this.state.optionsDatabase} updateOptions={this.updateOptionsDatabase}/>
             </div>
+            <div>
+              <label for="cvUpload" className="cvUploadLabel">Upload CV</label>
+              <input type="file" id="cvUpload"/>
+            </div>
             {/* <Dropdown title="Methods" options={[]}/> */}
           </div>
         </div>
