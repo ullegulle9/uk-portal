@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 // import Register from './Register.js';
+import DropdownOption from './DropdownOption.js';
 
 class Dropdown extends Component {
   constructor(props) {
@@ -9,17 +10,19 @@ class Dropdown extends Component {
       active: false,
       activeClass: 'drpdwn-content',
       icon: 'keyboard_arrow_down',
-      addText: ''
+      addText: '',
+      checkedValues: []
     };
     this.toggleDropdown = this.toggleDropdown.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleAddClick = this.handleAddClick.bind(this);
-    this.toggleCheckbox = this.toggleCheckbox.bind(this);
+    this.addCheckedValue = this.addCheckedValue.bind(this);
+    this.removeCheckedValue = this.removeCheckedValue.bind(this);
   }
   render() {
     let view;
     let options = this.props.options.map(o => {
-      return <div key={o} className="drpdwn-option">{o} <input className="optionsCheckBox" type="checkbox" name={o} value={o} onChange={this.toggleCheckbox}/></div>
+      return <DropdownOption removeCheckedValue={this.removeCheckedValue} addCheckedValue={this.addCheckedValue} key={o} className="drpdwn-option" o={o}></DropdownOption>
     })
     view = 
     <div>
@@ -71,9 +74,24 @@ class Dropdown extends Component {
     });
   }
 
-  toggleCheckbox(ev) {
-    console.log(ev.target);
-    let val = ev.target.value;
+  addCheckedValue(val) {
+    let arr = this.state.checkedValues;
+    arr.push(val);
+    this.setState({
+      checkedValues: arr
+    });
+    this.props.updateChecked(arr);
+  }
+
+  removeCheckedValue(val) {
+    let arr = this.state.checkedValues;
+    let filterArr = arr.filter(x => {
+      return x !== val
+    })
+    this.setState({
+      checkedValues: filterArr
+    });
+    this.props.updateChecked(filterArr);
   }
 }
 

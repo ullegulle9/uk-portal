@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 import './App.css';
+import Select from './Select.js';
 
 class RegisterThree extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      optionsStatus: ['Available', 'Not available'],
+      status: 'Status'
+    }
     this.handleClick = this.handleClick.bind(this);
+    this.updateStatus = this.updateStatus.bind(this);
   }
   render() {
     return (
@@ -14,7 +20,16 @@ class RegisterThree extends Component {
           <span className="regSectionTitle">Stage 3 - Searching for</span>
         </div>
         <div className="flexCenter">
-          <p>part 3</p>
+          <div className="r2formContainer">
+            <div>
+              <span>Specify your current status</span>
+              <Select updateStatus={this.updateStatus} title={this.state.status} options={this.state.optionsStatus}/>
+            </div>
+            <div>
+              <span>Payroll claims</span>
+              <input type="number" name="claims" placeholder="SEK/h" className="inputText"/>
+            </div>
+          </div>
         </div>
         <div className="flexRight">
           <button className="btn btn-secondary" onClick={this.handleClick}>Next</button>
@@ -23,8 +38,14 @@ class RegisterThree extends Component {
     );
   }
 
+  updateStatus(status) {
+    this.setState({
+      status: status
+    });
+  }
+
   handleClick() {
-    this.props.updateView('registerThree');
+    this.props.updateView('registerFour');
   }
 }
 

@@ -13,6 +13,11 @@ class RegisterTwo extends Component {
     this.updateOptionsLanguages = this.updateOptionsLanguages.bind(this);
     this.updateOptionsApplications = this.updateOptionsApplications.bind(this);
     this.updateOptionsDatabase = this.updateOptionsDatabase.bind(this);
+    this.updateCheckedRoles = this.updateCheckedRoles.bind(this);
+    this.updateCheckedTechniques = this.updateCheckedTechniques.bind(this);
+    this.updateCheckedLanguages = this.updateCheckedLanguages.bind(this);
+    this.updateCheckedApplications = this.updateCheckedApplications.bind(this);
+    this.updateCheckedDatabase = this.updateCheckedDatabase.bind(this);
     this.state = {
       optionsRoles: ['Project leader', 'Scrum master', 'Developer'],
       optionsTechniques: ['.NET', 'Angular.js', 'MVC', 'AJAX', 'jQuery', 'LINQ', 'WCF', 'WPF', 'Silverlight', 'React.js', 'Vue.js', 'Node.js', 'Express', 'MongoDb', 'Mongoose'],
@@ -20,10 +25,20 @@ class RegisterTwo extends Component {
       optionsStatus: ['Available', 'Not available'],
       optionsApplications: [],
       optionsDatabase: [],
-      status: 'Status'
+      status: 'Status',
+      checkedRoles: [],
+      checkedTechniques: [],
+      checkedLanguages: [],
+      checkedApplications: [],
+      checkedDatabase: []
     }
   }
   render() {
+    console.log(this.state.checkedRoles);
+    console.log(this.state.checkedTechniques);
+    console.log(this.state.checkedLanguages);
+    console.log(this.state.checkedApplications);
+    console.log(this.state.checkedDatabase);
     return (
       <div className="registerTwo">
         <div className="regTitleCont">
@@ -38,23 +53,23 @@ class RegisterTwo extends Component {
             </div>
             <div>
               <span>Previous roles</span>
-              <Dropdown title="Roles" options={this.state.optionsRoles} updateOptions={this.updateOptionsRoles}/>
+              <Dropdown updateChecked={this.updateCheckedRoles} title="Roles" options={this.state.optionsRoles} updateOptions={this.updateOptionsRoles}/>
             </div>
             <div>
               <span>Techniques you can handle</span>
-              <Dropdown title="Techniques" options={this.state.optionsTechniques} updateOptions={this.updateOptionsTechniques}/>
+              <Dropdown updateChecked={this.updateCheckedTechniques} title="Techniques" options={this.state.optionsTechniques} updateOptions={this.updateOptionsTechniques}/>
             </div>
             <div>
               <span>Languages you know</span>
-              <Dropdown title="Languages" options={this.state.optionsLanguages} updateOptions={this.updateOptionsLanguages}/>
+              <Dropdown updateChecked={this.updateCheckedLanguages} title="Languages" options={this.state.optionsLanguages} updateOptions={this.updateOptionsLanguages}/>
             </div>
             <div>
               <span>Applications knowlegde</span>
-              <Dropdown title="Applications" options={this.state.optionsApplications} updateOptions={this.updateOptionsApplications}/>
+              <Dropdown updateChecked={this.updateCheckedApplications} title="Applications" options={this.state.optionsApplications} updateOptions={this.updateOptionsApplications}/>
             </div>
             <div>
               <span>Database knowlegde</span>
-              <Dropdown title="Database" options={this.state.optionsDatabase} updateOptions={this.updateOptionsDatabase}/>
+              <Dropdown updateChecked={this.updateCheckedDatabase} title="Database" options={this.state.optionsDatabase} updateOptions={this.updateOptionsDatabase}/>
             </div>
             {/* <Dropdown title="Methods" options={[]}/> */}
           </div>
@@ -113,6 +128,36 @@ class RegisterTwo extends Component {
     options.push(option);
     this.setState({
       optionsDatabase: options
+    });
+  }
+
+  updateCheckedRoles(list) {
+    this.setState({
+      checkedRoles: list
+    });
+  }
+
+  updateCheckedTechniques(list) {
+    this.setState({
+      checkedTechniques: list
+    });
+  }
+
+  updateCheckedLanguages(list) {
+    this.setState({
+      checkedLanguages: list
+    });
+  }
+
+  updateCheckedApplications(list) {
+    this.setState({
+      checkedApplications: list
+    });
+  }
+
+  updateCheckedDatabase(list) {
+    this.setState({
+      checkedDatabase: list
     });
   }
 }

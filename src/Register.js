@@ -3,6 +3,7 @@ import './App.css';
 import RegisterOne from './RegisterPartOne.js';
 import RegisterTwo from './RegisterPartTwo.js';
 import RegisterThree from './RegisterPartThree.js';
+import RegisterFour from './RegisterPartFour.js';
 
 class Register extends Component {
   constructor(props) {
@@ -23,6 +24,9 @@ class Register extends Component {
       break;
       case 'registerThree': view = 
       <RegisterThree updateView={this.updateView}></RegisterThree>;
+      break;
+      case 'registerFour': view = 
+      <RegisterFour></RegisterFour>
       break;
       default: view = 
       <RegisterOne updateView={this.updateView}></RegisterOne>;
