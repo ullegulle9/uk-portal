@@ -9,7 +9,7 @@ class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      view: 'registerTwo'
+      view: 'registerOne'
     }
     this.updateView = this.updateView.bind(this);
   }

@@ -8,17 +8,20 @@ class RegisterTwo extends Component {
     super(props);
     this.handleClick = this.handleClick.bind(this);
     this.updateStatus = this.updateStatus.bind(this);
+    this.updateOptionsBranch = this.updateOptionsBranch.bind(this);
     this.updateOptionsRoles = this.updateOptionsRoles.bind(this);
     this.updateOptionsTechniques = this.updateOptionsTechniques.bind(this);
     this.updateOptionsLanguages = this.updateOptionsLanguages.bind(this);
     this.updateOptionsApplications = this.updateOptionsApplications.bind(this);
     this.updateOptionsDatabase = this.updateOptionsDatabase.bind(this);
+    this.updateCheckedBranch = this.updateCheckedBranch.bind(this);
     this.updateCheckedRoles = this.updateCheckedRoles.bind(this);
     this.updateCheckedTechniques = this.updateCheckedTechniques.bind(this);
     this.updateCheckedLanguages = this.updateCheckedLanguages.bind(this);
     this.updateCheckedApplications = this.updateCheckedApplications.bind(this);
     this.updateCheckedDatabase = this.updateCheckedDatabase.bind(this);
     this.state = {
+      optionsBranch: ['Telecom', 'Automative', 'Pharmasuiticals', 'Finance', 'Logistics', 'Industrial', 'Security'],
       optionsRoles: ['Project leader', 'Scrum master', 'Developer'],
       optionsTechniques: ['.NET', 'Angular.js', 'MVC', 'AJAX', 'jQuery', 'LINQ', 'WCF', 'WPF', 'Silverlight', 'React.js', 'Vue.js', 'Node.js', 'Express', 'MongoDb', 'Mongoose'],
       optionsLanguages: ['Javascript', 'C#', 'C++', 'Java', 'Python', 'Ruby', 'PHP'],
@@ -26,6 +29,7 @@ class RegisterTwo extends Component {
       optionsApplications: [],
       optionsDatabase: [],
       status: 'Status',
+      checkedBranch: [],
       checkedRoles: [],
       checkedTechniques: [],
       checkedLanguages: [],
@@ -34,6 +38,7 @@ class RegisterTwo extends Component {
     }
   }
   render() {
+    console.log(this.state.checkedBranch);
     console.log(this.state.checkedRoles);
     console.log(this.state.checkedTechniques);
     console.log(this.state.checkedLanguages);
@@ -48,8 +53,8 @@ class RegisterTwo extends Component {
         <div className="flexCenter">
           <div className="r2formContainer">
             <div>
-              <span>Specify your current status</span>
-              <Select updateStatus={this.updateStatus} title={this.state.status} options={this.state.optionsStatus}/>
+              <span>Branch</span>
+              <Dropdown updateChecked={this.updateCheckedBranch} title="Branch" options={this.state.optionsBranch} updateOptions={this.updateOptionsRoles}/>
             </div>
             <div>
               <span>Previous roles</span>
@@ -72,7 +77,15 @@ class RegisterTwo extends Component {
               <Dropdown updateChecked={this.updateCheckedDatabase} title="Database" options={this.state.optionsDatabase} updateOptions={this.updateOptionsDatabase}/>
             </div>
             <div>
-              <label for="cvUpload" className="cvUploadLabel">Upload CV</label>
+              <span>Bio</span>
+              <textarea rows="4" cols="25" name="bio"></textarea>
+            </div>
+            <div>
+              <span className="cvUploadLabel">Upload CV</span>
+              <input type="file" id="cvUpload"/>
+            </div>
+            <div>
+              <span className="cvUploadLabel">Upload Avatar</span>
               <input type="file" id="cvUpload"/>
             </div>
             {/* <Dropdown title="Methods" options={[]}/> */}
@@ -92,6 +105,14 @@ class RegisterTwo extends Component {
   updateStatus(status) {
     this.setState({
       status: status
+    });
+  }
+
+  updateOptionsBranch(option) {
+    let options = this.state.optionsBranch;
+    options.push(option);
+    this.setState({
+      optionsBranch: options
     });
   }
 
@@ -132,6 +153,12 @@ class RegisterTwo extends Component {
     options.push(option);
     this.setState({
       optionsDatabase: options
+    });
+  }
+
+  updateCheckedBranch(list) {
+    this.setState({
+      checkedBranch: list
     });
   }
 
