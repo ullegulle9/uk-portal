@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import './App.css';
-import Select from './Select.js';
+import '../App.css';
+// import Select from './BasicComponents/Select.js';
 
-class RegisterFour extends Component {
+class RegisterFive extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,7 +17,7 @@ class RegisterFour extends Component {
       <div className="registerThree">
         <div className="regTitleCont">
           <span className="regTitle">Register</span>
-          <span className="regSectionTitle">Stage 4 - Confirmation</span>
+          <span className="regSectionTitle">Stage 5 - Confirmation</span>
         </div>
         <div className="flexCenter">
           <div>
@@ -39,4 +39,4 @@ class RegisterFour extends Component {
   }
 }
 
-export default RegisterFour;
+export default RegisterFive;

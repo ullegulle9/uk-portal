@@ -1,41 +1,86 @@
 import React, { Component } from 'react';
 import './App.css';
-import Register from './Register.js';
+import Register from './Register/Register.js';
+import firebase from 'firebase';
+import Basic from './Basic';
+import {
+  NavLink,
+  HashRouter
+} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import RegisterOne from './Register/RegisterPartOne.js';
+import RegisterTwo from './Register/RegisterPartTwo.js';
+// import googleLogo from 'googleLogo.svg';
+import {connect} from 'react-redux';
+
+var config = {
+  apiKey: "AIzaSyBrPG4WvLcULXuEprZVumPcKDgu_KXuLZo",
+  authDomain: "uk-portal-6c67e.firebaseapp.com",
+  databaseURL: "https://uk-portal-6c67e.firebaseio.com",
+  projectId: "uk-portal-6c67e",
+  storageBucket: "uk-portal-6c67e.appspot.com",
+  messagingSenderId: "624790521084"
+};
+
+firebase.initializeApp(config);
 
 class MainContent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      view: 'register'
+      view: 'standard',
+      userObj: {
+        fetch: false
+      }
     };
-    this.click = this.click.bind(this);
+    this.updateUserObj = this.updateUserObj.bind(this);
+    // this.googleAuth = this.googleAuth.bind(this);
   }
   render() {
-    let view;
-    if (this.state.view === 'standard') {
-      // console.log('standard');
-      view = 
-      <div className="flexCenter">
-      <div className="navBox">
-          <button className="btn btn-large btn-main" onClick={this.click}>Register</button>
-          <button className="btn btn-large btn-main">Login</button>
-        </div>
-        </div>;
-    } else if (this.state.view === 'register') {
-      view = <Register/>
-    }
+    // let view;
+    // if (this.state.view === 'standard') {
+    //   // console.log('standard');
+    //   view = 
+      
+    // } else if (this.state.view === 'register') {
+    //   view = <Register userObj={this.state.userObj}/>
+    // }
     return (
       <div className="mainContent">
-        {view}
+        <Router>
+          <Switch>
+            <Route path='/' exact render={props => <Basic updateUserObj={this.updateUserObj}/>}></Route>
+            <Route path='/register' exact render={props =>  <Register {...props} userObj={this.state.userObj} loggedIn={false}/>}></Route>
+              <Route path='/register/p1' exact render={props =>  <RegisterOne {...props} />}></Route>
+              <Route path='/register/p2' exact render={props =>  <RegisterTwo {...props} />}></Route>
+          </Switch>
+        </Router>
       </div>
     );
   }
 
-  click(ev) {
+  componentDidMount() {
+    console.log(this.props);
+  }
+
+  // click(ev) {
+  //   this.setState({
+  //     view: 'register'
+  //   });
+  // }
+
+  updateUserObj(obj) {
     this.setState({
-      view: 'register'
+      userObj: obj
     });
   }
 }
 
-export default MainContent;
+function mapStateToProps(state) {
+  return {
+    user: state.user,
+    register: state.register
+  }
+}
+
+export default connect(mapStateToProps)(MainContent);

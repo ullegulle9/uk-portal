@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import './App.css';
-import Dropdown from './Dropdown.js';
-import Select from './Select.js';
+import '../App.css';
+import Dropdown from '../BasicComponents/Dropdown.js';
+// import Select from './BasicComponents/Select.js';
+import {connect} from 'react-redux';
+
 
 class RegisterTwo extends Component {
   constructor(props) {
@@ -28,7 +30,6 @@ class RegisterTwo extends Component {
       optionsStatus: ['Available', 'Not available'],
       optionsApplications: [],
       optionsDatabase: [],
-      status: 'Status',
       checkedBranch: [],
       checkedRoles: [],
       checkedTechniques: [],
@@ -38,12 +39,7 @@ class RegisterTwo extends Component {
     }
   }
   render() {
-    console.log(this.state.checkedBranch);
-    console.log(this.state.checkedRoles);
-    console.log(this.state.checkedTechniques);
-    console.log(this.state.checkedLanguages);
-    console.log(this.state.checkedApplications);
-    console.log(this.state.checkedDatabase);
+    console.log(this.props.register);
     return (
       <div className="registerTwo">
         <div className="regTitleCont">
@@ -85,8 +81,8 @@ class RegisterTwo extends Component {
               <input type="file" id="cvUpload"/>
             </div>
             <div>
-              <span className="cvUploadLabel">Upload Avatar</span>
-              <input type="file" id="cvUpload"/>
+              <span className="cvUploadLabel">Upload Profile Picture</span>
+              <input type="file" id="avatarUpload"/>
             </div>
             {/* <Dropdown title="Methods" options={[]}/> */}
           </div>
@@ -99,6 +95,15 @@ class RegisterTwo extends Component {
   }
 
   handleClick() {
+    let obj = {
+      branch: this.state.checkedBranch,
+      roles: this.state.checkedRoles,
+      techniques: this.state.checkedTechniques,
+      languages: this.state.checkedLanguages,
+      applications: this.state.checkedApplications,
+      database: this.state.checkedDatabase
+    }
+    this.props.updateRegData2(obj);
     this.props.updateView('registerThree');
   }
 
@@ -193,4 +198,11 @@ class RegisterTwo extends Component {
   }
 }
 
-export default RegisterTwo;
+function mapStateToProps(state) {
+  return {
+    user: state.user,
+    register: state.register
+  }
+}
+
+export default connect(mapStateToProps)(RegisterTwo);

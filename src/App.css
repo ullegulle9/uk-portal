@@ -88,12 +88,20 @@ ul, ol {
   background: #00b0ff;
 }
 
+.btn-main > a {
+  color: black;
+}
+
 .btn-secondary {
   background: transparent;
   color: #00b0ff;
   box-shadow: none;
   border-bottom: 2px solid transparent;
   border-radius: 0;
+}
+
+.btn-secondary > a {
+  color: #00b0ff;
 }
 
 .btn-sml {
@@ -124,6 +132,14 @@ ul, ol {
   cursor: pointer;
 }
 
+.google-btn {
+  background: #D50F25;
+}
+
+.google-btn:hover {
+  background: #d50f2582;
+}
+
 .inputText {
   border: none;
   border-bottom: 2px solid #4b636e;
@@ -132,6 +148,11 @@ ul, ol {
   font-family: Roboto;
   min-width: 160px;
 }
+
+.inputErr {
+  border-bottom: 2px solid red;
+}
+
 .inputText-sml {
   min-width: 80px;
 }
@@ -233,7 +254,10 @@ ul, ol {
 
 }
 
-
+a {
+  text-decoration: none;
+  /* color: transparent; */
+}
 
 .navBox {
   padding: 50px;
@@ -246,7 +270,7 @@ ul, ol {
 }
 
 .navBox > button {
-  width: 115px;
+  width: 155px;
 }
 
 .regTitleCont {
@@ -263,21 +287,23 @@ ul, ol {
   font-size: 1.2em;
 }
 
-.registerOne, .registerTwo, .registerThree {
+.registerOne, .registerTwo, .registerThree, .registerFour {
   background: #fff;
   display: flex;
   flex-direction: column;
   padding: 20px;
   justify-content: space-between;
+  max-height: 390px;
   /* align-items: center; */
   /* justify-content: space-around; */
   height: 100%;
   box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 }
 
-.registerTwo {
+.registerTwo, .registerFour {
   min-height: 400px;
 }
+
 
 
 .formContainer {
@@ -354,4 +380,54 @@ ul, ol {
 .acceptCheckBox + span {
   text-transform: uppercase;
   font-size: 0.8em;
+}
+
+.reg4Summary {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 90%;
+}
+
+.reg4Summary > div {
+  border: 1px solid #607d8b;
+  border-radius: 3px;
+  margin: 10px;
+  padding: 10px;
+}
+
+.summaryTitle {
+  text-transform: uppercase;
+  font-size: 0.8em;
+}
+
+.summarySection > div {
+  display: flex;
+  /* justify-content: center; */
+  flex-wrap: wrap;
+}
+
+.summarySection > div > div {
+  margin: 10px;
+  font-size: 0.7em;
+}
+
+.summarySection > div > div > span {
+  color: #607d8b;
+}
+
+.summaryItems {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.summaryItems > div {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 100px;
+}
+
+.summaryItems > div > span {
+  margin-right: 3px;
 }

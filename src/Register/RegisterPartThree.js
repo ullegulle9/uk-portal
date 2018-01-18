@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
-import './App.css';
-import Select from './Select.js';
+import '../App.css';
+import Select from '../BasicComponents/Select.js';
 
 class RegisterThree extends Component {
   constructor(props) {
     super(props);
     this.state = {
       optionsStatus: ['Available', 'Not available'],
-      status: 'Status'
+      status: 'Status',
+      payrollClaims: undefined
     }
     this.handleClick = this.handleClick.bind(this);
     this.updateStatus = this.updateStatus.bind(this);
+    this.handlePayrollClaims = this.handlePayrollClaims.bind(this);
   }
   render() {
     return (
@@ -27,7 +29,7 @@ class RegisterThree extends Component {
             </div>
             <div>
               <span>Payroll claims</span>
-              <input type="number" name="claims" placeholder="SEK/h" className="inputText"/>
+              <input type="number" name="claims" placeholder="SEK/h" value={this.state.payrollClaims} className="inputText" onChange={this.handlePayrollClaims}/>
             </div>
           </div>
         </div>
@@ -44,7 +46,18 @@ class RegisterThree extends Component {
     });
   }
 
+  handlePayrollClaims(ev) {
+    this.setState({
+      payrollClaims: ev.target.value
+    });
+  }
+
   handleClick() {
+    let obj = {
+      status: this.state.status,
+      payrollClaims: this.state.payrollClaims
+    }
+    this.props.updateRegData3(obj);
     this.props.updateView('registerFour');
   }
 }
