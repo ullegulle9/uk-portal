@@ -10,6 +10,9 @@ import {
 import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import RegisterOne from './Register/RegisterPartOne.js';
 import RegisterTwo from './Register/RegisterPartTwo.js';
+import RegisterThree from './Register/RegisterPartThree';
+import RegisterFour from './Register/RegisterPartFour';
+import RegisterFive from './Register/RegisterPartFive';
 // import googleLogo from 'googleLogo.svg';
 import {connect} from 'react-redux';
 
@@ -53,6 +56,9 @@ class MainContent extends Component {
             <Route path='/register' exact render={props =>  <Register {...props} userObj={this.state.userObj} loggedIn={false}/>}></Route>
               <Route path='/register/p1' exact render={props =>  <RegisterOne {...props} />}></Route>
               <Route path='/register/p2' exact render={props =>  <RegisterTwo {...props} />}></Route>
+              <Route path='/register/p3' exact render={props =>  <RegisterThree {...props} />}></Route>
+              <Route path='/register/p4' exact render={props =>  <RegisterFour {...props} />}></Route>
+              <Route path='/register/p5' exact render={props =>  <RegisterFive {...props} />}></Route>
           </Switch>
         </Router>
       </div>

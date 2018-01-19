@@ -8,6 +8,9 @@ const registerReducer = (state=initialState, action) => {
     case 'UPDATE_PARTTWO': 
     state = {...state, partTwo: action.payload}
     break;
+    case 'UPDATE_PARTTHREE': 
+    state = {...state, partThree: action.payload}
+    break;
   }
   return state;
 }
@@ -31,6 +34,16 @@ let initialState = {
     languages: [],
     applications: [],
     database: []
+  },
+  partThree: {
+    branch: [],
+    roles: [],
+    techniques: [] ,
+    languages: [],
+    applications: [],
+    database: [],
+    status: '',
+    payRollClaims: undefined
   }
 }
 

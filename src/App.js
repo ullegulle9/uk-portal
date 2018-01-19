@@ -3,10 +3,10 @@
 import './App.css';
 import MainContent from './MainContent.js';
 import Footer from './Footer.js';
-import Register from './Register/Register';
+// import Register from './Register/Register';
 import Basic from './Basic';
 import React, { Component } from "react";
-import {bindActionCreators} from 'redux';
+// import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 // import { BrowserRouter as Router, Route} from 'react-router-dom';
 

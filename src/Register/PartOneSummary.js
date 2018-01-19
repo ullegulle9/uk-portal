@@ -40,6 +40,12 @@ class PartOneSummary extends Component {
             </div>
           </div>
           <div className="summaryItems">
+            <span>Contact telephone number</span>
+            <div>
+            {this.state.regData.phoneNumber}
+            </div>
+          </div>
+          <div className="summaryItems">
             <span>City</span>
             <div>
             {this.state.regData.city}

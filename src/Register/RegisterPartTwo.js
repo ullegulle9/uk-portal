@@ -3,6 +3,7 @@ import '../App.css';
 import Dropdown from '../BasicComponents/Dropdown.js';
 // import Select from './BasicComponents/Select.js';
 import {connect} from 'react-redux';
+import * as actions from '../Actions/Actions';
 
 
 class RegisterTwo extends Component {
@@ -103,8 +104,10 @@ class RegisterTwo extends Component {
       applications: this.state.checkedApplications,
       database: this.state.checkedDatabase
     }
-    this.props.updateRegData2(obj);
-    this.props.updateView('registerThree');
+    // this.props.updateRegData2(obj);
+    // this.props.updateView('registerThree');
+    this.props.dispatch(actions.actionUpdateRegisterPartTwo(obj));
+    this.props.history.push('/register/p3');
   }
 
   updateStatus(status) {

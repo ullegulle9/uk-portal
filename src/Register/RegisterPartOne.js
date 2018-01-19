@@ -3,7 +3,7 @@ import '../App.css';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actions from '../Actions/Actions';
-import { bindActionCreators } from 'redux';
+// import { bindActionCreators } from 'redux';
 
 class RegisterOne extends Component {
   constructor(props) {
@@ -98,7 +98,7 @@ class RegisterOne extends Component {
   }
 
   handleClick() {
-    console.log(this.props);
+    // console.log(this.props);
     if (this.state.email === this.state.emailCopy && this.state.pw === this.state.pwCopy) {
       let obj = {
         firstName: this.state.firstName,
@@ -110,7 +110,7 @@ class RegisterOne extends Component {
         city: this.state.city,
         dateOfBirth: this.state.dateOfBirth
       };
-      console.log(obj);
+      // console.log(obj);
       this.props.dispatch(actions.actionUpdateRegisterPartOne(obj));
       this.props.history.push('/register/p2');
     }

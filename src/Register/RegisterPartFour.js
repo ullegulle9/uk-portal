@@ -4,6 +4,7 @@ import '../App.css';
 import PartOneSummary from './PartOneSummary';
 import PartTwoSummary from './PartTwoSummary';
 import PartThreeSummary from './PartThreeSummary';
+import {connect} from 'react-redux';
 
 class RegisterFour extends Component {
   constructor(props) {
@@ -54,10 +55,11 @@ class RegisterFour extends Component {
   }
 
   componentDidMount() {
+    console.log(this.props);
     this.setState({
-      regData1: this.props.regData1,
-      regData2: this.props.regData2,
-      regData3: this.props.regData3
+      regData1: this.props.register.partOne,
+      regData2: this.props.register.partTwo,
+      regData3: this.props.register.partThree
     }, () => {
       this.setState({
         hasData: true
@@ -67,8 +69,15 @@ class RegisterFour extends Component {
   }
 
   nextClick() {
-    this.props.updateView('registerFive');
+    this.props.history.push('/register/p5');
   }
 }
 
-export default RegisterFour;
+function mapStateToProps(state) {
+  return {
+    user: state.user,
+    register: state.register
+  }
+}
+
+export default connect(mapStateToProps)(RegisterFour);
