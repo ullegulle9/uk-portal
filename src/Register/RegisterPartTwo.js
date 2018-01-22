@@ -4,6 +4,7 @@ import Dropdown from '../BasicComponents/Dropdown.js';
 // import Select from './BasicComponents/Select.js';
 import {connect} from 'react-redux';
 import * as actions from '../Actions/Actions';
+import firebase, { storage } from 'firebase';
 
 
 class RegisterTwo extends Component {
@@ -23,6 +24,9 @@ class RegisterTwo extends Component {
     this.updateCheckedLanguages = this.updateCheckedLanguages.bind(this);
     this.updateCheckedApplications = this.updateCheckedApplications.bind(this);
     this.updateCheckedDatabase = this.updateCheckedDatabase.bind(this);
+    this.handleCVUpload = this.handleCVUpload.bind(this);
+    this.handleAvatarUpload = this.handleAvatarUpload.bind(this);
+
     this.state = {
       optionsBranch: ['Telecom', 'Automative', 'Pharmasuiticals', 'Finance', 'Logistics', 'Industrial', 'Security'],
       optionsRoles: ['Project leader', 'Scrum master', 'Developer'],
@@ -36,19 +40,22 @@ class RegisterTwo extends Component {
       checkedTechniques: [],
       checkedLanguages: [],
       checkedApplications: [],
-      checkedDatabase: []
+      checkedDatabase: [],
+      cvUploadTitle: 'Choose a file...',
+      avatarUploadTitle: 'Choose a file...'
     }
   }
   render() {
-    console.log(this.props.register);
+    console.log(firebase);
     return (
       <div className="registerTwo">
         <div className="regTitleCont">
           <span className="regTitle">Register</span>
           <span className="regSectionTitle">Stage 2 - Profile</span>
         </div>
-        <div className="flexCenter">
+        {/* <div className="flexCenter"> */}
           <div className="r2formContainer">
+          <div>
             <div>
               <span>Branch</span>
               <Dropdown updateChecked={this.updateCheckedBranch} title="Branch" options={this.state.optionsBranch} updateOptions={this.updateOptionsRoles}/>
@@ -73,21 +80,32 @@ class RegisterTwo extends Component {
               <span>Database knowlegde</span>
               <Dropdown updateChecked={this.updateCheckedDatabase} title="Database" options={this.state.optionsDatabase} updateOptions={this.updateOptionsDatabase}/>
             </div>
-            <div>
+            <div className="bioDiv">
               <span>Bio</span>
-              <textarea rows="4" cols="25" name="bio"></textarea>
+              <textarea name="bio"></textarea>
+            </div>
             </div>
             <div>
-              <span className="cvUploadLabel">Upload CV</span>
-              <input type="file" id="cvUpload"/>
+              <div>
+              <span>CV Upload</span>
+              <div className="uploadDiv">
+                <input type="file" className="upload" id="cvUpload" onChange={this.handleCVUpload}/>
+                <label htmlFor="cvUpload"> <i className="material-icons">{"file_upload"}</i> {this.state.cvUploadTitle}</label>
+              </div>
+              </div>
+              <div>
+              <span>Profile Picture Upload</span>
+              <div className="uploadDiv">
+                <input type="file" className="upload" id="avatarUpload" onChange={this.handleAvatarUpload}/>
+                <label htmlFor="avatarUpload"> <i className="material-icons">{"file_upload"}</i>{this.state.avatarUploadTitle}</label>
+              </div>
             </div>
-            <div>
-              <span className="cvUploadLabel">Upload Profile Picture</span>
-              <input type="file" id="avatarUpload"/>
             </div>
+            {/* <div></div>
+            <div></div> */}
             {/* <Dropdown title="Methods" options={[]}/> */}
           </div>
-        </div>
+        {/* </div> */}
         <div className="flexRight">
           <button className="btn btn-secondary" onClick={this.handleClick}>Next</button>
         </div>
@@ -108,6 +126,24 @@ class RegisterTwo extends Component {
     // this.props.updateView('registerThree');
     this.props.dispatch(actions.actionUpdateRegisterPartTwo(obj));
     this.props.history.push('/register/p3');
+  }
+
+  handleCVUpload(ev) {
+    let file = ev.target.files[0];
+    let storageRef = firebase.storage().ref('cvs/' + file.name);
+    storageRef.put(file);
+    this.setState({
+      cvUploadTitle: file.name
+    });
+  }
+
+  handleAvatarUpload(ev) {
+    let file = ev.target.files[0];
+    let storageRef = firebase.storage().ref('avatars/' + file.name);
+    storageRef.put(file);
+    this.setState({
+      avatarUploadTitle: file.name
+    });
   }
 
   updateStatus(status) {

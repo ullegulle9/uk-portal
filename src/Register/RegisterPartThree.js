@@ -49,15 +49,16 @@ class RegisterThree extends Component {
           <span className="regTitle">Register</span>
           <span className="regSectionTitle">Stage 3 - What are you interested in working with?</span>
         </div>
-        <div className="flexCenter">
+        {/* <div className="flexCenter"> */}
           <div className="r2formContainer">
+          <div>
             <div>
               <span>Specify your current status</span>
               <Select updateStatus={this.updateStatus} title={this.state.status} options={this.state.optionsStatus}/>
             </div>
             <div>
               <span>Payroll claims</span>
-              <input type="number" name="claims" placeholder="SEK/h" value={this.state.payrollClaims} className="inputText" onChange={this.handlePayrollClaims}/>
+              <input type="number" name="claims" placeholder="SEK/h" value={this.state.payrollClaims} className="inputText inputNumber" onChange={this.handlePayrollClaims}/>
             </div>
             <div>
               <span>Branch</span>
@@ -67,6 +68,8 @@ class RegisterThree extends Component {
               <span>Preferred roles</span>
               <Dropdown updateChecked={this.updateCheckedRoles} title="Roles" options={this.state.optionsRoles} updateOptions={this.updateOptionsRoles}/>
             </div>
+            </div>
+            <div>
             <div>
               <span>Preferred techniques</span>
               <Dropdown updateChecked={this.updateCheckedTechniques} title="Techniques" options={this.state.optionsTechniques} updateOptions={this.updateOptionsTechniques}/>
@@ -83,8 +86,9 @@ class RegisterThree extends Component {
               <span>Preferred database</span>
               <Dropdown updateChecked={this.updateCheckedDatabase} title="Database" options={this.state.optionsDatabase} updateOptions={this.updateOptionsDatabase}/>
             </div>
+            </div>
           </div>
-        </div>
+        {/* </div> */}
         <div className="flexRight">
           <button className="btn btn-secondary" onClick={this.handleClick}>Next</button>
         </div>

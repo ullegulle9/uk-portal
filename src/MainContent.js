@@ -40,6 +40,7 @@ class MainContent extends Component {
     // this.googleAuth = this.googleAuth.bind(this);
   }
   render() {
+    console.log(firebase);
     // let view;
     // if (this.state.view === 'standard') {
     //   // console.log('standard');
@@ -52,7 +53,7 @@ class MainContent extends Component {
       <div className="mainContent">
         <Router>
           <Switch>
-            <Route path='/' exact render={props => <Basic updateUserObj={this.updateUserObj}/>}></Route>
+            <Route path='/' exact render={props => <Basic {...props} />}></Route>
             <Route path='/register' exact render={props =>  <Register {...props} userObj={this.state.userObj} loggedIn={false}/>}></Route>
               <Route path='/register/p1' exact render={props =>  <RegisterOne {...props} />}></Route>
               <Route path='/register/p2' exact render={props =>  <RegisterTwo {...props} />}></Route>

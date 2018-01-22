@@ -15,7 +15,7 @@ const registerReducer = (state=initialState, action) => {
   return state;
 }
 
-let initialState = {
+const initialState = {
   partOne: {
       firstName: 'Marre',
       lastName: '',

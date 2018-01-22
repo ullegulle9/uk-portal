@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import '../App.css';
+import firebase from 'firebase';
+import {connect} from 'react-redux';
 // import Select from './BasicComponents/Select.js';
 
 class RegisterFive extends Component {
@@ -9,10 +11,12 @@ class RegisterFive extends Component {
       optionsStatus: ['Available', 'Not available'],
       status: 'Status'
     }
-    // this.handleClick = this.handleClick.bind(this);
+    this.confirmClick = this.confirmClick.bind(this);
     // this.updateStatus = this.updateStatus.bind(this);
   }
   render() {
+    console.log(this.props.user.userObj.emailAddress);
+    console.log(typeof(this.props.user.userObj.emailAddress));
     return (
       <div className="registerThree">
         <div className="regTitleCont">
@@ -32,11 +36,33 @@ class RegisterFive extends Component {
           </div>
         </div>
         <div className="flexRight">
-          <button className="btn btn-secondary">Confirm</button>
+          <button className="btn btn-secondary" onClick={this.confirmClick}>Confirm</button>
         </div>
       </div>
     );
   }
+
+  confirmClick(ev) {
+    let fb = firebase.database();
+    fb.ref('/users').push({
+      userName: this.props.user.userObj.emailAddress
+    });
+    fb.ref().child('users').orderByChild("userName")
+    .equalTo(this.props.user.userObj.emailAddress)
+    .once('value', snap => {
+      console.log(snap.val());
+    })
+    // fb.ref('/users').once('value', snap => {
+    //   console.log(snap.val());
+    // })
+  }
 }
 
-export default RegisterFive;
+function mapStateToProps(state) {
+  return {
+    user: state.user,
+    register: state.register
+  }
+}
+
+export default connect(mapStateToProps)(RegisterFive);

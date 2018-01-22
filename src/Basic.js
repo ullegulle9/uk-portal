@@ -8,6 +8,8 @@ import React, { Component } from "react";
 import { Link, Route, Redirect } from 'react-router-dom';
 // import { push } from 'react-router-redux';
 import firebase from 'firebase';
+import {connect} from 'react-redux';
+import * as actions from './Actions/Actions';
 
 
 
@@ -18,8 +20,11 @@ class Basic extends Component {
       userObj: {}
     };
     this.googleAuth = this.googleAuth.bind(this);
+    this.fbAuth = this.fbAuth.bind(this);
   }
   render() {
+    
+    console.log(this.props);
     let view; 
     if (this.state.userObj.fetch) {
       view = 
@@ -32,14 +37,44 @@ class Basic extends Component {
     } else {
       view = <div className="flexCenter">
       <div className="navBox">
-          <button className="btn btn-large btn-main" ><Link to={'/register/p1'}>Register</Link></button>
-          <button className="btn btn-large btn-main google-btn" onClick={this.googleAuth}><i className="fa fa-google" aria-hidden="true"></i> Register</button>
+          <button className="btn btn-large btn-main fb-btn" onClick={this.fbAuth}><i className="fa fa-facebook-official" aria-hidden="true"></i> Sign up</button>
+          <button className="btn btn-large btn-main google-btn" onClick={this.googleAuth}><i className="fa fa-google" aria-hidden="true"></i> sign up</button>
         </div>
         </div>
     }
     return (
       <span>{view}</span>
     );
+    // <Link to={'/register/p1'}>Register</Link>
+  }
+
+  fbAuth() {
+    var provider = new firebase.auth.FacebookAuthProvider();
+    firebase.auth().signInWithPopup(provider)
+    .then( (result, err) => {
+			if (err) {
+        alert(err);
+      }
+      console.log(result);
+      let split = result.user.displayName.split(' ');
+      // console.log(split);
+      let firstName = split[0];
+      let lastName = split[split.length - 1];
+      let obj = {
+        firstName: firstName,
+        lastName: lastName,
+        emailAddress: result.user.email,
+        photoUrl: result.user.photoURL,
+        phoneNumber: result.user.phoneNumber,
+        fetch: true
+      };
+      // this.setState({
+      //   userObj: obj
+      // })
+      this.props.dispatch(actions.actionUpdateUserObj(obj));
+      this.props.history.push('/register/p1');
+    })
+    // additionalUserInfo
   }
 
   googleAuth() {
@@ -68,11 +103,24 @@ class Basic extends Component {
       //   state: { userObj: obj }
       // });
       // dispatch(push('/register'))
-      this.setState({
-        userObj: obj
-      })
+      // this.setState({
+      //   userObj: obj
+      // })
+      this.props.dispatch(actions.actionUpdateUserObj(obj));
+      this.props.history.push('/register/p1');
 		}).catch();
 	};
 }
 
-export default Basic;
+function mapStateToProps(state) {
+  return {
+    user: state.user,
+    register: state.register
+  }
+}
+
+// function matchDispatchToProps(dispatch) {
+//   return bindActionCreators({})
+// }
+
+export default connect(mapStateToProps)(Basic);

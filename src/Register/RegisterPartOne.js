@@ -86,8 +86,8 @@ class RegisterOne extends Component {
       phoneNumber: p1.phoneNumber,
       city: p1.city
     });
-    if (this.props.location.state) {
-      let userObj = this.props.location.state.userObj;
+    if (this.props.user.userObj) {
+      let userObj = this.props.user.userObj;
       this.setState({
         firstName: userObj.firstName === null ? '' : userObj.firstName,
         lastName: userObj.lastName === null ? '' : userObj.lastName,
@@ -196,7 +196,7 @@ function mapStateToProps(state) {
     register: state.register
   }
 }
-
+// this.props.dispatch(actions.actionUpdateRegisterPartOne(obj));
 // function matchDispatchToProps(dispatch) {
 //   return bindActionCreators({})
 // }

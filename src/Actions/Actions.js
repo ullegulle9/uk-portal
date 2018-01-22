@@ -1,3 +1,15 @@
+// USER
+
+export const actionUpdateUserObj = (obj) => {
+  return {
+    type: 'UPDATE_USEROBJ',
+    payload: obj
+  }
+}
+
+
+// REGISTER
+
 export const actionUpdateRegisterPartOne = (obj) => {
   return {
     type: 'UPDATE_PARTONE',
@@ -18,4 +30,6 @@ export const actionUpdateRegisterPartThree = (obj) => {
     payload: obj
   }
 }
+
+
 
