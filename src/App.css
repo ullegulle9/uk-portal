@@ -70,9 +70,19 @@ ul, ol {
   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
 }
 
-/* .icon {
+.summaryEdit {
+  font-size: 16px;
   cursor: pointer;
-} */
+}
+
+.summaryEdit:hover {
+  color: #34515f;
+}
+
+.summaryTop {
+  display: flex;
+  justify-content: space-between;
+}
 
 .btn {
   padding: 10px;
@@ -212,6 +222,21 @@ ul, ol {
   padding: 0; */
 }
 
+.errorMsgUpload {
+  max-width: 170px;
+  overflow-wrap: break-word;
+}
+
+.registerOne .errorMsgPartOne {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  padding: 10px 0;
+  font-style: italic;
+  color: red;
+  font-size: 13px;
+}
+
 .inputText {
   border: none;
   border-bottom: 2px solid #4b636e;
@@ -341,12 +366,18 @@ a {
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+  max-width: 300px;
   /* background: white;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); */
 }
 
-.navBox > button {
-  width: 155px;
+.navBox  button {
+  width: 100%;
+}
+
+.navBox > div {
+  display: flex;
+  width: 100%;
 }
 
 .regTitleCont {

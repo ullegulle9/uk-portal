@@ -3,10 +3,10 @@ import './App.css';
 import Register from './Register/Register.js';
 import firebase from 'firebase';
 import Basic from './Basic';
-import {
-  NavLink,
-  HashRouter
-} from "react-router-dom";
+// import {
+//   NavLink,
+//   HashRouter
+// } from "react-router-dom";
 import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import RegisterOne from './Register/RegisterPartOne.js';
 import RegisterTwo from './Register/RegisterPartTwo.js';

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import '../App.css';
+import {connect} from 'react-redux';
 
 class PartThreeSummary extends Component {
   constructor(props) {
@@ -7,7 +8,7 @@ class PartThreeSummary extends Component {
     this.state = {
       regData: {},
     }
-    // this.handleClick = this.handleClick.bind(this);
+    this.editClick = this.editClick.bind(this);
     // this.updateStatus = this.updateStatus.bind(this);
   }
 
@@ -57,7 +58,10 @@ class PartThreeSummary extends Component {
     });
     return (
       <div className="summarySection">
-        <span className="summaryTitle">Area of interest</span>
+        <div className="summaryTop">
+          <span className="summaryTitle">Area of interest</span>
+          <i className="material-icons summaryEdit" onClick={this.editClick} >{"edit"}</i>
+        </div>
         <div>
           <div className="summaryItems">
           <span>Status</span>
@@ -68,7 +72,7 @@ class PartThreeSummary extends Component {
           <div className="summaryItems">
           <span>Payroll claims</span>
           <div>
-           {this.props.regData.payRollClaims}
+           {this.props.regData.payrollClaims}
            </div>
           </div>
           <div className="summaryItems">
@@ -119,6 +123,17 @@ class PartThreeSummary extends Component {
       console.log(this.state.regData);
     });
   }
+
+  editClick(ev) {
+    this.props.p.history.push('/register/p3');
+  }
 }
 
-export default PartThreeSummary;
+function mapStateToProps(state) {
+  return {
+    user: state.user,
+    register: state.register
+  }
+}
+
+export default connect(mapStateToProps)(PartThreeSummary);

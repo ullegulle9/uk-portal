@@ -4,7 +4,7 @@ import Dropdown from '../BasicComponents/Dropdown.js';
 // import Select from './BasicComponents/Select.js';
 import {connect} from 'react-redux';
 import * as actions from '../Actions/Actions';
-import firebase, { storage } from 'firebase';
+import firebase from 'firebase';
 
 
 class RegisterTwo extends Component {
@@ -26,6 +26,7 @@ class RegisterTwo extends Component {
     this.updateCheckedDatabase = this.updateCheckedDatabase.bind(this);
     this.handleCVUpload = this.handleCVUpload.bind(this);
     this.handleAvatarUpload = this.handleAvatarUpload.bind(this);
+    this.handleBio = this.handleBio.bind(this);
 
     this.state = {
       optionsBranch: ['Telecom', 'Automative', 'Pharmasuiticals', 'Finance', 'Logistics', 'Industrial', 'Security'],
@@ -41,12 +42,15 @@ class RegisterTwo extends Component {
       checkedLanguages: [],
       checkedApplications: [],
       checkedDatabase: [],
+      bio: '',
       cvUploadTitle: 'Choose a file...',
-      avatarUploadTitle: 'Choose a file...'
+      avatarUploadTitle: 'Choose a file...',
+      cvUploadErr: '',
+      avatarUploadErr: ''
     }
   }
   render() {
-    console.log(firebase);
+    console.log(this.props.register);
     return (
       <div className="registerTwo">
         <div className="regTitleCont">
@@ -82,7 +86,7 @@ class RegisterTwo extends Component {
             </div>
             <div className="bioDiv">
               <span>Bio</span>
-              <textarea name="bio"></textarea>
+              <textarea name="bio" value={this.state.bio} onChange={this.handleBio} ></textarea>
             </div>
             </div>
             <div>
@@ -92,6 +96,7 @@ class RegisterTwo extends Component {
                 <input type="file" className="upload" id="cvUpload" onChange={this.handleCVUpload}/>
                 <label htmlFor="cvUpload"> <i className="material-icons">{"file_upload"}</i> {this.state.cvUploadTitle}</label>
               </div>
+              <span className="errorMsgUpload">{this.state.cvUploadErr}</span>
               </div>
               <div>
               <span>Profile Picture Upload</span>
@@ -99,6 +104,7 @@ class RegisterTwo extends Component {
                 <input type="file" className="upload" id="avatarUpload" onChange={this.handleAvatarUpload}/>
                 <label htmlFor="avatarUpload"> <i className="material-icons">{"file_upload"}</i>{this.state.avatarUploadTitle}</label>
               </div>
+              <span className="errorMsgUpload">{this.state.avatarUploadErr}</span>
             </div>
             </div>
             {/* <div></div>
@@ -113,6 +119,12 @@ class RegisterTwo extends Component {
     );
   }
 
+  componentDidMount() {
+    // if (!this.props.user.userObj) {
+    //   this.props.history.push('/');
+    // }
+  }
+
   handleClick() {
     let obj = {
       branch: this.state.checkedBranch,
@@ -120,7 +132,8 @@ class RegisterTwo extends Component {
       techniques: this.state.checkedTechniques,
       languages: this.state.checkedLanguages,
       applications: this.state.checkedApplications,
-      database: this.state.checkedDatabase
+      database: this.state.checkedDatabase,
+      bio: this.state.bio
     }
     // this.props.updateRegData2(obj);
     // this.props.updateView('registerThree');
@@ -130,19 +143,49 @@ class RegisterTwo extends Component {
 
   handleCVUpload(ev) {
     let file = ev.target.files[0];
-    let storageRef = firebase.storage().ref('cvs/' + file.name);
-    storageRef.put(file);
-    this.setState({
-      cvUploadTitle: file.name
-    });
+    console.log(file);
+    if (file.size > 15728640) {
+      this.setState({
+        cvUploadErr: 'File size too big! Max size 15MB'
+      });
+    } else if (file.type !== 'application/pdf' && file.type !== 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' && file.type !== 'application/vnd.oasis.opendocument.text' && file.type !== 'application/msword') {
+      this.setState({
+        cvUploadErr: 'File format not supported! Supported formats are .pdf, .odt, .docx and .doc'
+      });
+    } else {
+      let storageRef = firebase.storage().ref(`cvs/${this.props.register.partOne.emailAddress}/` + file.name);
+      storageRef.put(file);
+      this.setState({
+        cvUploadTitle: file.name,
+        cvUploadErr: ''
+      });
+    }
   }
 
   handleAvatarUpload(ev) {
     let file = ev.target.files[0];
-    let storageRef = firebase.storage().ref('avatars/' + file.name);
-    storageRef.put(file);
+    console.log(file.type);
+    if (file.size > 3145728) {
+      this.setState({
+        avatarUploadErr: 'File size too big! Max size 3MB'
+      });
+    } else if (file.type !== 'image/jpeg' && file.type !== 'image/png') {
+      this.setState({
+        avatarUploadErr: 'File format not supported! Supported formats are .png and .jpg/.jpeg'
+      });
+    } else {
+      let storageRef = firebase.storage().ref(`avatars/${this.props.register.partOne.emailAddress}/` + file.name);
+      storageRef.put(file);
+      this.setState({
+      avatarUploadTitle: file.name,
+      avatarUploadErr: ''
+    });
+    }
+  }
+
+  handleBio(ev) {
     this.setState({
-      avatarUploadTitle: file.name
+      bio: ev.target.value
     });
   }
 

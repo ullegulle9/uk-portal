@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import '../App.css';
-import { withRouter } from 'react-router-dom';
+// import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actions from '../Actions/Actions';
+import firebase from 'firebase';
 // import { bindActionCreators } from 'redux';
 
 class RegisterOne extends Component {
@@ -19,7 +20,11 @@ class RegisterOne extends Component {
       city: '',
       phoneNumber: '',
       classNameEmail: 'inputText',
-      classNamePw: 'inputText'
+      classNamePw: 'inputText',
+      classNamePhone: 'inputText',
+      classNameNameCity: 'inputText',
+      classNameDateOfBirth: 'inputText',
+      errorMsg: ''
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleFirstName = this.handleFirstName.bind(this);
@@ -31,9 +36,11 @@ class RegisterOne extends Component {
     this.handlePwCopy = this.handlePwCopy.bind(this);
     this.handleCity = this.handleCity.bind(this);
     this.handlePhoneNumber = this.handlePhoneNumber.bind(this);
+    this.registerEmailPw = this.registerEmailPw.bind(this);
+    this.checkInputs = this.checkInputs.bind(this);
   }
   render() {
-    console.log(this.props);
+    // console.log(this.state);
     return (
       <div className="registerOne">
         <div className="regTitleCont">
@@ -43,11 +50,11 @@ class RegisterOne extends Component {
         <div className="flexCenter">
           <div className="formContainer">
             <div>
-              <input type="text" name="firstname" placeholder="First name" className="inputText" value={this.state.firstName} onChange={this.handleFirstName}/>
-              <input type="text" name="lastname" placeholder="Last name" className="inputText" value={this.state.lastName} onChange={this.handleLastName}/>
+              <input type="text" name="firstname" placeholder="First name" className={this.state.classNameNameCity} value={this.state.firstName} onChange={this.handleFirstName}/>
+              <input type="text" name="lastname" placeholder="Last name" className={this.state.classNameNameCity} value={this.state.lastName} onChange={this.handleLastName}/>
             </div>
             <div>
-              <input type="text" name="date-of-birth" placeholder="Date of birth yyyy-mm-dd" className="inputText" value={this.state.dateOfBirth} onChange={this.handleDateOfBirth}/>
+              <input type="text" name="date-of-birth" placeholder="Date of birth YYYYMMDD" className={this.state.classNameDateOfBirth} value={this.state.dateOfBirth} onChange={this.handleDateOfBirth}/>
             </div>
             <div>
               <input type="email" name="email" placeholder="Email address" className="inputText" value={this.state.email} onChange={this.handleEmail}/>
@@ -56,13 +63,14 @@ class RegisterOne extends Component {
               <input type="email" name="emailCopy" placeholder="Repeat email address" className={this.state.classNameEmail} value={this.state.emailCopy} onChange={this.handleEmailCopy} />
             </div>
             <div>
-              <input type="password" placeholder="Password" className="inputText" value={this.state.pw} onChange={this.handlePw} />
+              <input type="password" placeholder="Password" className={this.state.classNamePw} value={this.state.pw} onChange={this.handlePw} />
               <input type="password" placeholder="Repeat password" className={this.state.classNamePw} value={this.state.pwCopy} onChange={this.handlePwCopy}/>
             </div>
             <div>
-            <input type="text" name="city" placeholder="City" className="inputText" value={this.state.city} onChange={this.handleCity}/>
-              <input type="text" name="tph" placeholder="Telephone number" className="inputText" value={this.state.phoneNumber} onChange={this.handlePhoneNumber}/>
+            <input type="text" name="city" placeholder="City" className={this.state.classNameNameCity} value={this.state.city} onChange={this.handleCity}/>
+              <input type="text" name="tph" placeholder="Telephone number" className={this.state.classNamePhone} value={this.state.phoneNumber} onChange={this.handlePhoneNumber}/>
             </div>
+            <div className="errorMsgPartOne">{this.state.errorMsg}</div>
           </div>
         </div>
         <div className="flexRight">
@@ -75,44 +83,148 @@ class RegisterOne extends Component {
   componentDidMount() {
     console.log(this.props);
     let p1 = this.props.register.partOne;
+    console.log(p1.emailAddress);
     this.setState({
       firstName: p1.firstName,
       lastName: p1.lastName,
-      email: p1.email,
+      email: p1.emailAddress,
       emailCopy: p1.emailCopy,
       dateOfBirth: p1.dateOfBirth,
       pw: p1.pw,
       pwCopy: p1.pwCopy,
       phoneNumber: p1.phoneNumber,
       city: p1.city
+    }, () => {
+      if (this.props.user.userObj) {
+        console.log(this.props.user.userObj);
+        let userObj = this.props.user.userObj;
+        if ( userObj.firstName !== undefined && userObj.lastName !== undefined ) {
+          this.setState({
+            firstName: userObj.firstName === null ? '' : userObj.firstName,
+            lastName: userObj.lastName === null ? '' : userObj.lastName,
+            email: userObj.emailAddress === null ? '' : userObj.emailAddress
+          }, () => {
+            console.log(this.state);
+          })
+        } 
+      }
     });
-    if (this.props.user.userObj) {
-      let userObj = this.props.user.userObj;
+    
+  }
+
+  registerEmailPw() {
+    if (this.state.email !== this.state.emailCopy) {
       this.setState({
-        firstName: userObj.firstName === null ? '' : userObj.firstName,
-        lastName: userObj.lastName === null ? '' : userObj.lastName,
-        email: userObj.emailAddress === null ? '' : userObj.emailAddress,
-        phoneNumber: userObj.phoneNumber === null ? '' : userObj.phoneNumber
+        classNameEmail: 'inputText inputErr',
+        classNamePw: 'inputText'
+      });
+    } else if (this.state.pw !== this.state.pwCopy) {
+      this.setState({
+        classNamePw: 'inputText inputErr',
+        classNameEmail: 'inputText'
       })
+    } else {
+      let self = this;
+    firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.pw)
+    .catch((error) => {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      console.log(errorCode, errorMessage);
+      if (errorCode === 'auth/weak-password') {
+        self.setState({
+          classNamePw: 'inputText inputErr',
+          errorMsg: errorMessage
+        });
+      } else if (errorCode === 'auth/email-already-in-use') {
+        self.setState({
+          classNameEmail: 'inputText inputErr',
+          classNamePw: 'inputText',
+          errorMsg: errorMessage
+        });
+      }
+      return false;
+    }).then( (res) => {
+      if (res) {
+        this.setState({
+          classNamePw: 'inputText',
+          classNameEmail: 'inputText',
+          errorMsg: ''
+        });
+        let obj = {
+          firstName: this.state.firstName,
+          lastName: this.state.lastName,
+          emailAddress: this.state.email,
+          emailCopy: this.state.emailCopy,
+          pw: this.state.pw,
+          pwCopy: this.state.pwCopy,
+          city: this.state.city,
+          dateOfBirth: this.state.dateOfBirth,
+          phoneNumber: this.state.phoneNumber
+        };
+        this.props.dispatch(actions.actionUpdateUserObj(res));
+        this.props.dispatch(actions.actionUpdateRegisterPartOne(obj));
+        this.props.history.push('/register/p2');
+      }
+    });
+    }
+    
+  }
+
+  checkInputs() {
+    if (this.state.firstName.length < 1 || this.state.lastName.length < 1 || this.state.city.length < 1 ) {
+      console.log('false');
+      this.setState({
+        classNameNameCity: 'inputText inputErr',
+        classNamePhone: 'inputText',
+        classNameDateOfBirth: 'inputText'
+      });
+      return false;
+    } else if (this.state.dateOfBirth.length !== 8 || isNaN(Number(this.state.dateOfBirth)) ) {
+      console.log('NaN');
+      this.setState({
+        classNameNameCity: 'inputText',
+        classNamePhone: 'inputText',
+        classNameDateOfBirth: 'inputText inputErr'
+      });
+      return false;
+    } else if (this.state.phoneNumber.length < 1 || isNaN(Number(this.state.phoneNumber))) {
+      console.log('phoneNumber');
+      this.setState({
+        classNameNameCity: 'inputText',
+        classNameDateOfBirth: 'inputText',
+        classNamePhone: 'inputText inputErr'
+      });
+      return false;
+    } else {
+      this.setState({
+        classNameNameCity: 'inputText',
+        classNameDateOfBirth: 'inputText',
+        classNamePhone: 'inputText'
+      });
+      return true;
     }
   }
 
   handleClick() {
-    // console.log(this.props);
-    if (this.state.email === this.state.emailCopy && this.state.pw === this.state.pwCopy) {
-      let obj = {
-        firstName: this.state.firstName,
-        lastName: this.state.lastName,
-        email: this.state.email,
-        emailCopy: this.state.emailCopy,
-        pw: this.state.pw,
-        pwCopy: this.state.pwCopy,
-        city: this.state.city,
-        dateOfBirth: this.state.dateOfBirth
-      };
-      // console.log(obj);
-      this.props.dispatch(actions.actionUpdateRegisterPartOne(obj));
-      this.props.history.push('/register/p2');
+    // TODO: Fallbacks inputs
+    if (this.checkInputs()) {
+      if (!this.props.user.userObj) {
+        this.registerEmailPw();
+      } else {
+        let obj = {
+          firstName: this.state.firstName,
+          lastName: this.state.lastName,
+          emailAddress: this.state.email,
+          emailCopy: this.state.emailCopy,
+          pw: this.state.pw,
+          pwCopy: this.state.pwCopy,
+          city: this.state.city,
+          dateOfBirth: this.state.dateOfBirth,
+          phoneNumber: this.state.phoneNumber
+        };
+        this.props.dispatch(actions.actionUpdateRegisterPartOne(obj));
+        this.props.history.push('/register/p2');
+      }
     }
   }
 
@@ -145,15 +257,15 @@ class RegisterOne extends Component {
       emailCopy: ev.target.value
     }, () => {
       // console.log('kör')
-      if (this.state.email !== this.state.emailCopy) {
-        this.setState({
-          classNameEmail: 'inputText inputErr'
-        });
-      } else {
-        this.setState({
-          classNameEmail: 'inputText'
-        });
-      }
+      // if (this.state.email !== this.state.emailCopy) {
+      //   this.setState({
+      //     classNameEmail: 'inputText inputErr'
+      //   });
+      // } else {
+      //   this.setState({
+      //     classNameEmail: 'inputText'
+      //   });
+      // }
     });
   }
   handlePw(ev) {
@@ -166,15 +278,15 @@ class RegisterOne extends Component {
       pwCopy: ev.target.value
     }, () => {
       // console.log('kör')
-      if (this.state.pw !== this.state.pwCopy) {
-        this.setState({
-          classNamePw: 'inputText inputErr'
-        });
-      } else {
-        this.setState({
-          classNamePw: 'inputText'
-        });
-      }
+      // if (this.state.pw !== this.state.pwCopy) {
+      //   this.setState({
+      //     classNamePw: 'inputText inputErr'
+      //   });
+      // } else {
+      //   this.setState({
+      //     classNamePw: 'inputText'
+      //   });
+      // }
     });
   }
   handleCity(ev) {

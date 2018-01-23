@@ -4,7 +4,7 @@ import './App.css';
 import MainContent from './MainContent.js';
 import Footer from './Footer.js';
 // import Register from './Register/Register';
-import Basic from './Basic';
+// import Basic from './Basic';
 import React, { Component } from "react";
 // import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
@@ -39,5 +39,13 @@ function mapStateToProps(state) {
     register: state.register
   }
 }
+
+// SIGN OUT
+
+// firebase.auth().signOut().then(function() {
+//   // Sign-out successful.
+// }).catch(function(error) {
+//   // An error happened.
+// });
 
 export default connect(mapStateToProps)(App);

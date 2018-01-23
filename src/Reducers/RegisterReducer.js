@@ -11,21 +11,23 @@ const registerReducer = (state=initialState, action) => {
     case 'UPDATE_PARTTHREE': 
     state = {...state, partThree: action.payload}
     break;
+    default: 
+    state = Object.assign({}, state);
   }
   return state;
 }
 
 const initialState = {
   partOne: {
-      firstName: 'Marre',
-      lastName: '',
-      email: '',
-      dateOfBirth: '',
-      emailCopy: '',
-      pw: '',
-      pwCopy: '',
-      city: '',
-      phoneNumber: ''
+    firstName: 'Marre',
+    lastName: '',
+    emailAddress: 'ab@mail.com',
+    dateOfBirth: '',
+    emailCopy: '',
+    pw: '',
+    pwCopy: '',
+    city: '',
+    phoneNumber: ''
   },
   partTwo: {
     branch: [],
@@ -43,7 +45,7 @@ const initialState = {
     applications: [],
     database: [],
     status: '',
-    payRollClaims: undefined
+    payRollClaims: ''
   }
 }
 

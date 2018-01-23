@@ -9,9 +9,8 @@ class RegisterThree extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      optionsStatus: ['Available', 'Not available'],
       status: 'Status',
-      payrollClaims: undefined,
+      payrollClaims: '',
       optionsBranch: ['Telecom', 'Automative', 'Pharmasuiticals', 'Finance', 'Logistics', 'Industrial', 'Security'],
       optionsRoles: ['Project leader', 'Scrum master', 'Developer'],
       optionsTechniques: ['.NET', 'Angular.js', 'MVC', 'AJAX', 'jQuery', 'LINQ', 'WCF', 'WPF', 'Silverlight', 'React.js', 'Vue.js', 'Node.js', 'Express', 'MongoDb', 'Mongoose'],
@@ -97,7 +96,9 @@ class RegisterThree extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props);
+    // if (!this.props.user.userObj) {
+    //   this.props.history.push('/');
+    // }
   }
 
   updateStatus(status) {
@@ -123,6 +124,7 @@ class RegisterThree extends Component {
       applications: this.state.checkedApplications,
       database: this.state.checkedDatabase
     }
+    console.log(obj);
     // this.props.updateRegData2(obj);
     // this.props.updateView('registerThree');
     this.props.dispatch(actions.actionUpdateRegisterPartThree(obj));

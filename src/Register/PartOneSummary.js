@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import '../App.css';
+import {connect} from 'react-redux';
 
 class PartOneSummary extends Component {
   constructor(props) {
@@ -7,13 +8,15 @@ class PartOneSummary extends Component {
     this.state = {
       regData: {},
     }
-    // this.handleClick = this.handleClick.bind(this);
-    // this.updateStatus = this.updateStatus.bind(this);
+    this.editClick = this.editClick.bind(this);
   }
   render() {
     return (
       <div className="summarySection">
-        <span className="summaryTitle">Contact details</span>
+        <div className="summaryTop">
+          <span className="summaryTitle">Contact details</span>
+          <i className="material-icons summaryEdit" onClick={this.editClick} >{"edit"}</i>
+        </div>
         <div>
           <div className="summaryItems">
             <span>First name</span>
@@ -30,7 +33,7 @@ class PartOneSummary extends Component {
           <div className="summaryItems">
             <span>Email</span>
             <div>
-            {this.state.regData.email}
+            {this.state.regData.emailAddress}
             </div>
           </div>
           <div className="summaryItems">
@@ -51,6 +54,7 @@ class PartOneSummary extends Component {
             {this.state.regData.city}
             </div>
           </div>
+          
         </div>
       </div>
     );
@@ -64,6 +68,17 @@ class PartOneSummary extends Component {
       console.log(this.state.regData);
     });
   }
+
+  editClick(ev) {
+    this.props.p.history.push('/register/p1');
+  }
 }
 
-export default PartOneSummary;
+function mapStateToProps(state) {
+  return {
+    user: state.user,
+    register: state.register
+  }
+}
+
+export default connect(mapStateToProps)(PartOneSummary);

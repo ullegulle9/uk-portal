@@ -1,4 +1,4 @@
-import { User } from "firebase";
+// import { User } from "firebase";
 
 const UserReducer = (state=initialState, action) => {
   switch(action.type) {
@@ -6,14 +6,14 @@ const UserReducer = (state=initialState, action) => {
     console.log('reducer');
     state = {...state, userObj: action.payload}
     break;
+    default: 
+    state = Object.assign({}, state);
   }
   return state;
 }
 
 const initialState = {
-  userObj: {
-    emailAddress: 'allez@mail.com'
-  }
+  userObj: null
 };
 
 export default UserReducer;

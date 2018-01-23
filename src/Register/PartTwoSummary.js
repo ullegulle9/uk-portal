@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import '../App.css';
+import {connect} from 'react-redux';
 
 class PartTwoSummary extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      
-    }
-    // this.handleClick = this.handleClick.bind(this);
+    this.state = {}
+    this.editClick = this.editClick.bind(this);
     // this.updateStatus = this.updateStatus.bind(this);
   }
   render() {
@@ -56,7 +55,10 @@ class PartTwoSummary extends Component {
     
     return (
       <div className="summarySection">
-        <span className="summaryTitle">Profile</span>
+        <div className="summaryTop">
+          <span className="summaryTitle">Profile</span>
+          <i className="material-icons summaryEdit" onClick={this.editClick} >{"edit"}</i>
+        </div>
         <div>
           <div className="summaryItems">
           <span>Branch</span>
@@ -94,10 +96,27 @@ class PartTwoSummary extends Component {
            {databaseList}
            </div>
           </div>
+          <div className="summaryItems">
+          <span>Bio</span>
+          <div>
+           {this.props.regData.bio}
+           </div>
+          </div>
         </div>
       </div>
     );
   }
+
+  editClick(ev) {
+    this.props.p.history.push('/register/p2');
+  }
 }
 
-export default PartTwoSummary;
+function mapStateToProps(state) {
+  return {
+    user: state.user,
+    register: state.register
+  }
+}
+
+export default connect(mapStateToProps)(PartTwoSummary);

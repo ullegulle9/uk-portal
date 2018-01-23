@@ -25,13 +25,13 @@ class RegisterFour extends Component {
       view = 
         <div className="reg4Summary">
           <div>
-            <PartOneSummary regData={this.state.regData1}></PartOneSummary>
+            <PartOneSummary p={this.props} regData={this.state.regData1}></PartOneSummary>
           </div>
           <div>
-            <PartTwoSummary regData={this.state.regData2}></PartTwoSummary>
+            <PartTwoSummary p={this.props} regData={this.state.regData2}></PartTwoSummary>
           </div>
           <div>
-            <PartThreeSummary regData={this.state.regData3}></PartThreeSummary>
+            <PartThreeSummary p={this.props} regData={this.state.regData3}></PartThreeSummary>
           </div>
         </div>
     } else {
@@ -55,7 +55,9 @@ class RegisterFour extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props);
+    // if (!this.props.user.userObj) {
+    //   this.props.history.push('/');
+    // }
     this.setState({
       regData1: this.props.register.partOne,
       regData2: this.props.register.partTwo,
