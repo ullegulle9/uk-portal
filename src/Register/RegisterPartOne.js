@@ -24,7 +24,8 @@ class RegisterOne extends Component {
       classNamePhone: 'inputText',
       classNameNameCity: 'inputText',
       classNameDateOfBirth: 'inputText',
-      errorMsg: ''
+      errorMsg: '',
+      readOnly: false
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleFirstName = this.handleFirstName.bind(this);
@@ -38,9 +39,19 @@ class RegisterOne extends Component {
     this.handlePhoneNumber = this.handlePhoneNumber.bind(this);
     this.registerEmailPw = this.registerEmailPw.bind(this);
     this.checkInputs = this.checkInputs.bind(this);
+    // this.checkEmailDb = this.checkEmailDb.bind(this);
   }
   render() {
-    // console.log(this.state);
+    // console.log(this.state.readOnly);
+    let emailInput;
+    let emailCopyInput;
+    if (this.state.readOnly) {
+      emailInput = <input type="email" readOnly name="email" placeholder="Email address" className={this.state.classNameEmail} value={this.state.email} onChange={this.handleEmail}/>
+      emailCopyInput = <input type="email" readOnly name="emailCopy" placeholder="Repeat email address" className={this.state.classNameEmail} value={this.state.emailCopy} onChange={this.handleEmailCopy} />
+    } else {
+      emailInput = <input type="email" name="email" placeholder="Email address" className={this.state.classNameEmail} value={this.state.email} onChange={this.handleEmail}/>
+      emailCopyInput = <input type="email" name="emailCopy" placeholder="Repeat email address" className={this.state.classNameEmail} value={this.state.emailCopy} onChange={this.handleEmailCopy} />
+    }
     return (
       <div className="registerOne">
         <div className="regTitleCont">
@@ -57,10 +68,10 @@ class RegisterOne extends Component {
               <input type="text" name="date-of-birth" placeholder="Date of birth YYYYMMDD" className={this.state.classNameDateOfBirth} value={this.state.dateOfBirth} onChange={this.handleDateOfBirth}/>
             </div>
             <div>
-              <input type="email" name="email" placeholder="Email address" className="inputText" value={this.state.email} onChange={this.handleEmail}/>
+              {emailInput}
             </div>
             <div>
-              <input type="email" name="emailCopy" placeholder="Repeat email address" className={this.state.classNameEmail} value={this.state.emailCopy} onChange={this.handleEmailCopy} />
+              {emailCopyInput}
             </div>
             <div>
               <input type="password" placeholder="Password" className={this.state.classNamePw} value={this.state.pw} onChange={this.handlePw} />
@@ -81,9 +92,7 @@ class RegisterOne extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props);
     let p1 = this.props.register.partOne;
-    console.log(p1.emailAddress);
     this.setState({
       firstName: p1.firstName,
       lastName: p1.lastName,
@@ -96,21 +105,77 @@ class RegisterOne extends Component {
       city: p1.city
     }, () => {
       if (this.props.user.userObj) {
-        console.log(this.props.user.userObj);
+        // console.log(this.props.user.userObj);
         let userObj = this.props.user.userObj;
         if ( userObj.firstName !== undefined && userObj.lastName !== undefined ) {
+          // console.log('inthere')
           this.setState({
             firstName: userObj.firstName === null ? '' : userObj.firstName,
             lastName: userObj.lastName === null ? '' : userObj.lastName,
-            email: userObj.emailAddress === null ? '' : userObj.emailAddress
-          }, () => {
-            console.log(this.state);
-          })
+            email: userObj.emailAddress === null ? '' : userObj.emailAddress,
+            emailCopy: userObj.emailAddress === null ? '' : userObj.emailAddress,
+            readOnly: true,
+            errorMsg: 'Email address is connected to your Facebook/Google account and may not be changed. If you wish to register another email address, please return to home and sign up without using Facebook/Google.'
+          });
         } 
       }
     });
     
   }
+
+  handleClick() {
+    if (this.checkInputs()) {
+      if (!this.props.user.userObj) {
+        this.registerEmailPw();
+      } else {
+        let checkEmailDb = new Promise( (res, rej) => {
+          let fb = firebase.database();
+          fb.ref().child('users').orderByChild('contact_details/emailAddress')
+          .equalTo(this.state.email)
+          .once('value', snap => {
+            let data = snap.val();
+            if (!data) {
+              res('Doesnt exist');
+            } else {
+              rej();
+            }
+            // let obj;
+            // let id;
+            // for (let o in data) {
+            //   id = o;
+            //   obj = data[o];
+            // }
+            // console.log(obj, id);
+            // console.log(snap.ref);
+          })
+        }).then( (res) => {
+          // console.log('then', res);
+          // console.log(this.props.user);
+          let obj = {
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            emailAddress: this.state.email,
+            emailCopy: this.state.emailCopy,
+            pw: this.state.pw,
+            pwCopy: this.state.pwCopy,
+            city: this.state.city,
+            dateOfBirth: this.state.dateOfBirth,
+            phoneNumber: this.state.phoneNumber
+          };
+            this.props.dispatch(actions.actionUpdateRegisterPartOne(obj));
+            this.props.history.push('/register/p2');
+          
+        }).catch( () => {
+          // console.log('catch');
+          this.setState({
+            classNameEmail: 'inputText inputErr',
+            errorMsg: 'This email address has already been registered. Please sign in to proceed.'
+          });
+        });
+      }
+    }
+  }
+
 
   registerEmailPw() {
     if (this.state.email !== this.state.emailCopy) {
@@ -129,7 +194,7 @@ class RegisterOne extends Component {
     .catch((error) => {
       var errorCode = error.code;
       var errorMessage = error.message;
-      console.log(errorCode, errorMessage);
+      // console.log(errorCode, errorMessage);
       if (errorCode === 'auth/weak-password') {
         self.setState({
           classNamePw: 'inputText inputErr',
@@ -150,6 +215,8 @@ class RegisterOne extends Component {
           classNameEmail: 'inputText',
           errorMsg: ''
         });
+        this.props.dispatch(actions.actionUpdateUserObj(res));
+        // console.log(this.props.user.userObj);
         let obj = {
           firstName: this.state.firstName,
           lastName: this.state.lastName,
@@ -161,18 +228,16 @@ class RegisterOne extends Component {
           dateOfBirth: this.state.dateOfBirth,
           phoneNumber: this.state.phoneNumber
         };
-        this.props.dispatch(actions.actionUpdateUserObj(res));
         this.props.dispatch(actions.actionUpdateRegisterPartOne(obj));
         this.props.history.push('/register/p2');
       }
     });
     }
-    
   }
 
   checkInputs() {
     if (this.state.firstName.length < 1 || this.state.lastName.length < 1 || this.state.city.length < 1 ) {
-      console.log('false');
+      // console.log('false');
       this.setState({
         classNameNameCity: 'inputText inputErr',
         classNamePhone: 'inputText',
@@ -180,7 +245,7 @@ class RegisterOne extends Component {
       });
       return false;
     } else if (this.state.dateOfBirth.length !== 8 || isNaN(Number(this.state.dateOfBirth)) ) {
-      console.log('NaN');
+      // console.log('NaN');
       this.setState({
         classNameNameCity: 'inputText',
         classNamePhone: 'inputText',
@@ -188,7 +253,7 @@ class RegisterOne extends Component {
       });
       return false;
     } else if (this.state.phoneNumber.length < 1 || isNaN(Number(this.state.phoneNumber))) {
-      console.log('phoneNumber');
+      // console.log('phoneNumber');
       this.setState({
         classNameNameCity: 'inputText',
         classNameDateOfBirth: 'inputText',
@@ -205,29 +270,7 @@ class RegisterOne extends Component {
     }
   }
 
-  handleClick() {
-    // TODO: Fallbacks inputs
-    if (this.checkInputs()) {
-      if (!this.props.user.userObj) {
-        this.registerEmailPw();
-      } else {
-        let obj = {
-          firstName: this.state.firstName,
-          lastName: this.state.lastName,
-          emailAddress: this.state.email,
-          emailCopy: this.state.emailCopy,
-          pw: this.state.pw,
-          pwCopy: this.state.pwCopy,
-          city: this.state.city,
-          dateOfBirth: this.state.dateOfBirth,
-          phoneNumber: this.state.phoneNumber
-        };
-        this.props.dispatch(actions.actionUpdateRegisterPartOne(obj));
-        this.props.history.push('/register/p2');
-      }
-    }
-  }
-
+  
   handleFirstName(ev) {
     this.setState({
       firstName: ev.target.value

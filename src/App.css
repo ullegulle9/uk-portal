@@ -195,6 +195,13 @@ ul, ol {
 	cursor: pointer; /* "hand" cursor */
 }
 
+.navBar {
+  display: flex;
+  height: 50px;
+  background: #E1E2E1;
+  align-items: center;
+}
+
 /* .upload:hover {
   background-color: #00b0ff8a;
   cursor: pointer;
@@ -231,6 +238,17 @@ ul, ol {
   display: flex;
   justify-content: center;
   margin-top: 10px;
+  padding: 10px 0;
+  font-style: italic;
+  color: red;
+  font-size: 13px;
+  max-height: 20px;
+  overflow-y: auto;
+}
+
+.startScreen .errorMsgLogin {
+  display: flex;
+  justify-content: center;
   padding: 10px 0;
   font-style: italic;
   color: red;
@@ -370,6 +388,37 @@ a {
   /* background: white;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); */
 }
+
+.startScreen {
+  background: #fff;
+  max-width: 200px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.startScreen .inputText {
+  width: 100%;
+  margin: 0 5px; 
+  margin-bottom: 3px;
+}
+
+.startScreen .regLink {
+  margin-top: 5px;
+  padding: 5px;
+  font-size: 14px;
+  /* border-bottom: 1px solid #34515f; */
+}
+
+.startScreen .regLinkLink {
+  color: #34515f;
+  cursor: pointer;
+}
+
+.startScreen .regLinkLink:hover {
+  color: #000000;
+}
+
+
 
 .navBox  button {
   width: 100%;

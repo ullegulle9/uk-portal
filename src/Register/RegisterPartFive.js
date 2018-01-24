@@ -43,6 +43,7 @@ class RegisterFive extends Component {
   }
 
   componentDidMount() {
+    // console.log(this.props.user.userObj.uid);
     // if (!this.props.user.userObj) {
     //   this.props.history.push('/');
     // }
@@ -50,16 +51,11 @@ class RegisterFive extends Component {
 
   confirmClick(ev) {
     let fb = firebase.database();
-    fb.ref('/users').push({
+    fb.ref(`users/${this.props.user.userObj.uid}`).set({
       contact_details: this.props.register.partOne,
       profile: this.props.register.partTwo,
       status: this.props.register.partThree
     });
-    fb.ref().child('users').orderByChild("emailAddress")
-    .equalTo("ab@mail.com")
-    .once('value', snap => {
-      console.log(snap.val());
-    })
     // fb.ref('/users').once('value', snap => {
     //   console.log(snap.val());
     // })

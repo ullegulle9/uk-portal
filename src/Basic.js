@@ -53,7 +53,7 @@ class Basic extends Component {
       }
       console.log(result);
       let split = result.user.displayName.split(' ');
-      // console.log(split);
+      console.log(split);
       let firstName = split[0];
       let lastName = split[split.length - 1];
       let obj = {
@@ -62,7 +62,7 @@ class Basic extends Component {
         emailAddress: result.user.email,
         photoUrl: result.user.photoURL,
         phoneNumber: result.user.phoneNumber,
-        fetch: true
+        uid: result.user.uid
       };
       // this.setState({
       //   userObj: obj
@@ -92,7 +92,7 @@ class Basic extends Component {
         emailAddress: result.user.email,
         photoUrl: result.user.photoURL,
         phoneNumber: result.user.phoneNumber,
-        fetch: true
+        uid: result.user.uid
       }
       this.props.dispatch(actions.actionUpdateUserObj(obj));
       this.props.history.push('/register/p1');

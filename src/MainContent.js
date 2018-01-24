@@ -8,11 +8,13 @@ import Basic from './Basic';
 //   HashRouter
 // } from "react-router-dom";
 import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import Start from './Start';
 import RegisterOne from './Register/RegisterPartOne.js';
 import RegisterTwo from './Register/RegisterPartTwo.js';
 import RegisterThree from './Register/RegisterPartThree';
 import RegisterFour from './Register/RegisterPartFour';
 import RegisterFive from './Register/RegisterPartFive';
+import UserIFStart from './UserIF/Start';
 // import googleLogo from 'googleLogo.svg';
 import {connect} from 'react-redux';
 
@@ -53,13 +55,14 @@ class MainContent extends Component {
       <div className="mainContent">
         <Router>
           <Switch>
-            <Route path='/' exact render={props => <Basic {...props} />}></Route>
-            <Route path='/register' exact render={props =>  <Register {...props} userObj={this.state.userObj} loggedIn={false}/>}></Route>
+            <Route path='/' exact render={props => <Start {...props} />}></Route>
+            <Route path='/register' exact render={props => <Basic {...props} />}></Route>
               <Route path='/register/p1' exact render={props =>  <RegisterOne {...props} />}></Route>
               <Route path='/register/p2' exact render={props =>  <RegisterTwo {...props} />}></Route>
               <Route path='/register/p3' exact render={props =>  <RegisterThree {...props} />}></Route>
               <Route path='/register/p4' exact render={props =>  <RegisterFour {...props} />}></Route>
               <Route path='/register/p5' exact render={props =>  <RegisterFive {...props} />}></Route>
+            <Route path='/my-page' exact render={props =>  <UserIFStart {...props} />}></Route>
           </Switch>
         </Router>
       </div>

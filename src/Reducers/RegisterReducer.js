@@ -21,7 +21,7 @@ const initialState = {
   partOne: {
     firstName: 'Marre',
     lastName: '',
-    emailAddress: 'ab@mail.com',
+    emailAddress: 'aap@mail.com',
     dateOfBirth: '',
     emailCopy: '',
     pw: '',
