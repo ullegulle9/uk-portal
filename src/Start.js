@@ -59,6 +59,7 @@ class Start extends Component {
       // console.log(result);
       this.props.dispatch(actions.actionUpdateUserObj(result));
       console.log(this.props.user.userObj);
+      this.props.history.push('/my-page');
     }).catch(error => {
       var errorCode = error.code;
       var errorMessage = error.message;
@@ -112,6 +113,7 @@ class Start extends Component {
         this.props.dispatch(actions.actionUpdateUserObj(obj));
         console.log(this.props.user.userObj);
         console.log(res);
+        this.props.history.push('/my-page');
       }).catch( () => {
         console.log('catch');
       })
@@ -166,6 +168,7 @@ class Start extends Component {
         this.props.dispatch(actions.actionUpdateUserObj(obj));
         console.log(this.props.user.userObj);
         console.log(res);
+        this.props.history.push('/my-page');
       }).catch( () => {
         console.log('catch');
       })

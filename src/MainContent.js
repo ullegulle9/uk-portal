@@ -42,8 +42,6 @@ class MainContent extends Component {
     // this.googleAuth = this.googleAuth.bind(this);
   }
   render() {
-    console.log(firebase);
-    // let view;
     // if (this.state.view === 'standard') {
     //   // console.log('standard');
     //   view = 

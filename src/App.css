@@ -145,6 +145,10 @@ ul, ol {
   cursor: pointer;
 }
 
+.inconBtnWht {
+  color: #fff;
+}
+
 .google-btn {
   background: #D50F25;
   color: white;
@@ -195,10 +199,163 @@ ul, ol {
 	cursor: pointer; /* "hand" cursor */
 }
 
-.navBar {
+.myPage {
   display: flex;
-  height: 50px;
-  background: #E1E2E1;
+  flex-direction: column;
+  background: #fff;
+  height: 100%;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+
+.navBar {
+  flex: 0 0 75px;
+  display: flex;
+  justify-content: space-between;
+  /* height: 50px; */
+  /* background: #E1E2E1; */
+  align-items: center;
+  padding: 5px 15px;
+  border-bottom: 1px solid #F5F5F6;
+}
+
+.navBarRight {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.myPageTitle {
+  font-size: 20px;
+  font-weight: bolder;
+  margin-left: 10px;
+}
+
+.myPageName {
+  margin-left: 3px;
+  font-size: 20px;
+  font-weight: lighter;
+}
+
+.profilePic {
+  border-radius: 100%;
+  border: 2px solid #34515f;
+  width: 75px;
+  height: 75px;
+}
+
+.myPageMain {
+  height: 100%;
+}
+
+.contactDetailsMain, .profileMain {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 50px
+}
+
+.profileMain {
+  padding-top: 30px;
+}
+
+.profileMain .flex {
+  display: flex;
+  width: 610px;
+  margin: 0 5px;
+}
+
+.contactDetailsBox, .profileBox {
+  width: 400px;
+  border: 1px solid #607d8b;;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+}
+
+.profileBox {
+  width: 600px;
+  margin: 0 5px;
+  margin-bottom: 10px;
+}
+
+.profileBoxBio {
+  flex: 1;
+}
+
+.profileBoxBio .bioText {
+  padding: 5px;
+  font-size: 14px;
+}
+
+.profileBox > .topRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #607d8b;
+  color: #fff;
+  padding: 5px;
+}
+
+.profileBox .profileFlex {
+  display: flex;
+  flex-wrap: wrap;
+  max-height: 100px;
+  overflow-y: auto;
+}
+
+.profileBox .profileFlex .items {
+  margin: 5px;
+  font-size: 14px;
+  max-width: 130px;
+  display: flex;
+  flex-direction: column;
+}
+
+.profileBox .profileFlex .items > div {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 100px;
+}
+
+.profileBox .profileFlex .items > span {
+  color: #607d8b;
+}
+
+.contactDetailsBox > .topRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #607d8b;
+  color: #fff;
+  padding: 5px;
+}
+
+.contactDetailsBox > .topRow i {
+  cursor: pointer;
+}
+
+.contactDetailsBox > div {
+  padding: 5px;
+}
+
+.contactDetailsBox > div > div {
+  margin: 2px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.contactDetailsBox .name {
+  font-size: 18px;
+}
+
+.contactDetailsBox .dob {
+  font-style: italic;
+}
+
+.addNewItem {
+  display: flex;
   align-items: center;
 }
 
@@ -274,6 +431,11 @@ ul, ol {
 
 .inputText-sml {
   min-width: 80px;
+}
+
+.inputText-xsml {
+  width: 50px;
+  padding: 5px;
 }
 
 .drpdwn-head {
