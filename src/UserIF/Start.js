@@ -8,6 +8,7 @@ import Redirect from 'react-router-dom/Redirect';
 import Start from '../Start';
 import {connect} from 'react-redux';
 import firebase from 'firebase';
+import * as actions from '../Actions/Actions';
 
 class UserIFStart extends Component {
   constructor(props) {
@@ -18,6 +19,7 @@ class UserIFStart extends Component {
       user: null
     }
     this.updateView = this.updateView.bind(this);
+    this.checkIfSignedIn = this.checkIfSignedIn.bind(this);
   }
   render() {
     console.log('USER', this.state.user);
@@ -66,18 +68,28 @@ class UserIFStart extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.user.userObj);
     if (!this.props.user.userObj) {
       this.props.history.push('/');
     } else {
       let fb = firebase.database();
       let uid = this.props.user.userObj.uid;
       console.log(uid);
-      fb.ref('users/' + uid).on('value', snap =>{
+      fb.ref(`users/${uid}`).on('value', snap => {
         this.setState({
           user: snap.val()
         })
+        this.props.dispatch(actions.actionUpdateFbUserData(snap.val()));
       })
+    }
+  }
+
+  componentDidUpdate() {
+    this.checkIfSignedIn();
+  }
+
+  checkIfSignedIn() {
+    if (!this.props.user.userObj) {
+      this.props.history.push('/');
     }
   }
 

@@ -49,6 +49,9 @@ class MainContent extends Component {
     // } else if (this.state.view === 'register') {
     //   view = <Register userObj={this.state.userObj}/>
     // }
+    
+    console.log('REGISTER', this.props.register);
+    console.log('USER', this.props.user);
     return (
       <div className="mainContent">
         <Router>
@@ -68,7 +71,7 @@ class MainContent extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props);
+    console.log('main');
   }
 
   // click(ev) {

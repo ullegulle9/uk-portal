@@ -6,6 +6,9 @@ const UserReducer = (state=initialState, action) => {
     console.log('reducer');
     state = {...state, userObj: action.payload}
     break;
+    case 'UPDATE_FBUSERDATA':
+    state = {...state, fbUserData: action.payload}
+    break;
     default: 
     state = Object.assign({}, state);
   }
@@ -13,7 +16,8 @@ const UserReducer = (state=initialState, action) => {
 }
 
 const initialState = {
-  userObj: null
+  userObj: null,
+  fbUserData: null
 };
 
 export default UserReducer;

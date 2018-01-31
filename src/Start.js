@@ -117,9 +117,7 @@ class Start extends Component {
       }).catch( () => {
         console.log('catch');
       })
-      // this.props.history.push('/register/p1');
     })
-    // additionalUserInfo
   }
 
   googleAuth() {
@@ -155,14 +153,6 @@ class Start extends Component {
           } else {
             rej();
           }
-          // let obj;
-          // let id;
-          // for (let o in data) {
-          //   id = o;
-          //   obj = data[o];
-          // }
-          // console.log(obj, id);
-          // console.log(snap.ref);
         })
       }).then( (res) => {
         this.props.dispatch(actions.actionUpdateUserObj(obj));

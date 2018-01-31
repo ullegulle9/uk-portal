@@ -7,6 +7,13 @@ export const actionUpdateUserObj = (obj) => {
   }
 }
 
+export const actionUpdateFbUserData = (obj) => {
+  return {
+    type: 'UPDATE_FBUSERDATA',
+    payload: obj
+  }
+}
+
 
 // REGISTER
 

@@ -1,8 +1,9 @@
 // import React, { Component } from 'react';
 // import logo from './logo.svg';
 import './App.css';
-import MainContent from './MainContent.js';
-import Footer from './Footer.js';
+import MainContent from './MainContent';
+import Footer from './Footer';
+import Header from './Header';
 // import Register from './Register/Register';
 // import Basic from './Basic';
 import React, { Component } from "react";
@@ -15,13 +16,8 @@ class App extends Component {
     return (
       <div className="flexCenter">
         <div className="App">
-        <header className="App-header">
-            <div className="title">
-              <span className="titleOne">Republic IT </span>
-              <span className="titleTwo">portal</span>
-            </div>
-          </header>
-      <MainContent></MainContent>
+        <Header/>
+      <MainContent/>
       <Footer/>
       </div>
       </div>
