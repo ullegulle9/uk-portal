@@ -14,6 +14,7 @@ import RegisterTwo from './Register/RegisterPartTwo.js';
 import RegisterThree from './Register/RegisterPartThree';
 import RegisterFour from './Register/RegisterPartFour';
 import RegisterFive from './Register/RegisterPartFive';
+import Confirmation from './Register/Confirmation';
 import UserIFStart from './UserIF/Start';
 // import googleLogo from 'googleLogo.svg';
 import {connect} from 'react-redux';
@@ -42,16 +43,6 @@ class MainContent extends Component {
     // this.googleAuth = this.googleAuth.bind(this);
   }
   render() {
-    // if (this.state.view === 'standard') {
-    //   // console.log('standard');
-    //   view = 
-      
-    // } else if (this.state.view === 'register') {
-    //   view = <Register userObj={this.state.userObj}/>
-    // }
-    
-    console.log('REGISTER', this.props.register);
-    console.log('USER', this.props.user);
     return (
       <div className="mainContent">
         <Router>
@@ -63,6 +54,7 @@ class MainContent extends Component {
               <Route path='/register/p3' exact render={props =>  <RegisterThree {...props} />}></Route>
               <Route path='/register/p4' exact render={props =>  <RegisterFour {...props} />}></Route>
               <Route path='/register/p5' exact render={props =>  <RegisterFive {...props} />}></Route>
+              <Route path='/register/cl' exact render={props =>  <Confirmation {...props} />}></Route>
             <Route path='/my-page' exact render={props =>  <UserIFStart {...props} />}></Route>
           </Switch>
         </Router>
@@ -74,17 +66,13 @@ class MainContent extends Component {
     console.log('main');
   }
 
-  // click(ev) {
-  //   this.setState({
-  //     view: 'register'
-  //   });
-  // }
-
   updateUserObj(obj) {
     this.setState({
       userObj: obj
     });
   }
+
+  
 }
 
 function mapStateToProps(state) {

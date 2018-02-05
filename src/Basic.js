@@ -26,11 +26,11 @@ class Basic extends Component {
   render() {
     return (
       <div className="flexCenter">
-        <div className="navBox">
-          <button className="btn btn-large btn-main" onClick={this.register}>Sign up</button>
+        <div className="navBox startScreen">
+          <button className="btn btn-main" onClick={this.register}>Sign up</button>
           <div>
-            <button className="btn btn-large btn-main fb-btn" onClick={this.fbAuth}><i className="fa fa-facebook-official" aria-hidden="true"></i> Sign up</button>
-            <button className="btn btn-large btn-main google-btn" onClick={this.googleAuth}><i className="fa fa-google" aria-hidden="true"></i> sign up</button>
+            <button className="btn btn-main fb-btn" onClick={this.fbAuth}><i className="fa fa-facebook-official" aria-hidden="true"></i> Sign up</button>
+            <button className="btn btn-main google-btn" onClick={this.googleAuth}><i className="fa fa-google" aria-hidden="true"></i> sign up</button>
           </div>
         </div>
       </div>

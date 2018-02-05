@@ -133,7 +133,9 @@ class RegisterTwo extends Component {
       languages: this.state.checkedLanguages,
       applications: this.state.checkedApplications,
       database: this.state.checkedDatabase,
-      bio: this.state.bio
+      bio: this.state.bio,
+      cvUploadTitle: this.state.cvUploadTitle,
+      avatarUploadTitle: this.state.avatarUploadTitle
     }
     // this.props.updateRegData2(obj);
     // this.props.updateView('registerThree');
@@ -143,7 +145,6 @@ class RegisterTwo extends Component {
 
   handleCVUpload(ev) {
     let file = ev.target.files[0];
-    console.log(file);
     if (file.size > 15728640) {
       this.setState({
         cvUploadErr: 'File size too big! Max size 15MB'
@@ -176,10 +177,10 @@ class RegisterTwo extends Component {
     } else {
       let storageRef = firebase.storage().ref(`avatars/${this.props.register.partOne.emailAddress}/` + file.name);
       storageRef.put(file);
-      this.setState({
-      avatarUploadTitle: file.name,
-      avatarUploadErr: ''
-    });
+        this.setState({
+        avatarUploadTitle: file.name,
+        avatarUploadErr: ''
+      });
     }
   }
 

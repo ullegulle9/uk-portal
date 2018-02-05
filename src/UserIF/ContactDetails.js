@@ -36,7 +36,7 @@ class ContactDetails extends Component {
         <div>
           <input className="inputText" value={this.props.userProp.contact_details.firstName} />
           <input className="inputText" value={this.props.userProp.contact_details.lastName} />
-          <span>IMG</span>
+         
         </div>
         <div>
           <span>{this.props.userProp.contact_details.emailAddress}</span>
@@ -63,7 +63,6 @@ class ContactDetails extends Component {
         <div>
           <div>
             <strong className="name">{this.props.userProp.contact_details.firstName} {this.props.userProp.contact_details.lastName}</strong>
-            <span>IMG</span>
           </div>
           <div>
             <span>{this.props.userProp.contact_details.emailAddress}</span>
