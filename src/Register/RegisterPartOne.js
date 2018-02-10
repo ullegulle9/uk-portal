@@ -25,7 +25,8 @@ class RegisterOne extends Component {
       classNameNameCity: 'inputText',
       classNameDateOfBirth: 'inputText',
       errorMsg: '',
-      readOnly: false
+      readOnly: false,
+      classNameMsg: 'errorMsgPartOne'
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleFirstName = this.handleFirstName.bind(this);
@@ -81,7 +82,7 @@ class RegisterOne extends Component {
             <input type="text" name="city" placeholder="City" className={this.state.classNameNameCity} value={this.state.city} onChange={this.handleCity}/>
               <input type="text" name="tph" placeholder="Telephone number" className={this.state.classNamePhone} value={this.state.phoneNumber} onChange={this.handlePhoneNumber}/>
             </div>
-            <div className="errorMsgPartOne">{this.state.errorMsg}</div>
+            <div className={this.state.classNameMsg}>{this.state.errorMsg}</div>
           </div>
         </div>
         <div className="flexRight">
@@ -104,7 +105,7 @@ class RegisterOne extends Component {
       phoneNumber: p1.phoneNumber,
       city: p1.city
     }, () => {
-      if (this.props.user.userObj) {
+      if (this.props.user.userObj && !this.props.register.edit) {
         // console.log(this.props.user.userObj);
         let userObj = this.props.user.userObj;
         if ( userObj.firstName !== undefined && userObj.lastName !== undefined ) {
@@ -124,11 +125,26 @@ class RegisterOne extends Component {
   }
 
   handleClick() {
-    if (this.checkInputs()) {
+    if (this.props.register.edit) {
+      let obj = {
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        emailAddress: this.state.email,
+        emailCopy: this.state.emailCopy,
+        pw: this.state.pw,
+        pwCopy: this.state.pwCopy,
+        city: this.state.city,
+        dateOfBirth: this.state.dateOfBirth,
+        phoneNumber: this.state.phoneNumber
+      };
+      this.props.dispatch(actions.actionUpdateRegisterPartOne(obj));
+      this.props.history.push('/register/p4');
+    }
+    else if (this.checkInputs()) {
       if (!this.props.user.userObj) {
         this.registerEmailPw();
       } else {
-        let checkEmailDb = new Promise( (res, rej) => {
+        new Promise( (res, rej) => {
           let fb = firebase.database();
           fb.ref().child('users').orderByChild('contact_details/emailAddress')
           .equalTo(this.state.email)
@@ -139,18 +155,8 @@ class RegisterOne extends Component {
             } else {
               rej();
             }
-            // let obj;
-            // let id;
-            // for (let o in data) {
-            //   id = o;
-            //   obj = data[o];
-            // }
-            // console.log(obj, id);
-            // console.log(snap.ref);
           })
-        }).then( (res) => {
-          // console.log('then', res);
-          // console.log(this.props.user);
+        }).then( (res) => {;
           let obj = {
             firstName: this.state.firstName,
             lastName: this.state.lastName,
@@ -216,7 +222,6 @@ class RegisterOne extends Component {
           errorMsg: ''
         });
         this.props.dispatch(actions.actionUpdateUserObj(res));
-        // console.log(this.props.user.userObj);
         let obj = {
           firstName: this.state.firstName,
           lastName: this.state.lastName,
@@ -229,7 +234,22 @@ class RegisterOne extends Component {
           phoneNumber: this.state.phoneNumber
         };
         this.props.dispatch(actions.actionUpdateRegisterPartOne(obj));
-        this.props.history.push('/register/p2');
+        let user = firebase.auth().currentUser;
+        user.sendEmailVerification().then(() => {
+          this.setState({
+            errorMsg: 'A verification email has been sent to you!',
+            classNameMsg: 'alertPartOne'
+          }, () => {
+            setTimeout(() => {
+              this.props.history.push('/register/p2');
+            }, 5000)
+          })
+        }).catch((error) => {
+          this.setState({
+            errorMsg: error
+          });
+        });
+        
       }
     });
     }

@@ -1,31 +1,34 @@
 import React, { Component } from 'react';
 import '../App.css';
 import {connect} from 'react-redux';
-import firebase from 'firebase';
 
-class CategoryBoxEdit extends Component {
+class EditList extends Component {
   constructor(props) {
     super(props);
     this.state = {
       input: ''
-    }
-    this.handleInputChange = this.handleInputChange.bind(this);
+    };
     this.handleAddClick = this.handleAddClick.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
   render() {
+    let list = this.props.list.map((x, i) => {
+      if (i === this.props.list.length - 1) {
+        return <span key={x}>{x}</span>
+      } else {
+        return <span key={x}>{x},</span>
+      }
+    });
     return (
-      <div className="items">
-        <span>{this.props.title}</span>
-        <div>
-        {this.props.list}
+      <div>
+      {list}
         <div className="addNewItem">
           <input onChange={this.handleInputChange} value={this.state.input} className="inputText inputText-xsml" type="text" placeholder="Add"/>
           <button className="iconBtn" onClick={this.handleAddClick}>
             <i className="material-icons iconSml">add</i>
           </button>
         </div>
-        </div>
-      </div> 
+      </div>
     );
   }
 
@@ -39,25 +42,10 @@ class CategoryBoxEdit extends Component {
   }
 
   handleAddClick() {
-    let uid = this.props.user.userObj.uid;
-    let fb = firebase.database();
-    let path = this.props.title.toLowerCase();
-    let arr = this.props.user.fbUserData.status[path];
-    if (arr) {
-      arr.push(this.state.input);
-      fb.ref(`users/${uid}/status/`)
-      .update({
-        [path]: arr 
-      });
-
-    } else {
-      arr = [];
-      arr.push(this.state.input);
-      fb.ref(`users/${uid}/status/`)
-      .update({
-        [path]: arr 
-      });
-    }
+    this.props.update(this.state.input);
+    this.setState({
+      input: ''
+    });
   }
 }
 
@@ -68,8 +56,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(CategoryBoxEdit);
-
-
-
-
+export default connect(mapStateToProps)(EditList);

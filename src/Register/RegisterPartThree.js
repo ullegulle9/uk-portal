@@ -23,7 +23,8 @@ class RegisterThree extends Component {
       checkedTechniques: [],
       checkedLanguages: [],
       checkedApplications: [],
-      checkedDatabase: []
+      checkedDatabase: [],
+      errorMsg: ''
     }
     this.handleClick = this.handleClick.bind(this);
     this.updateStatus = this.updateStatus.bind(this);
@@ -85,6 +86,10 @@ class RegisterThree extends Component {
               <span>Preferred database</span>
               <Dropdown updateChecked={this.updateCheckedDatabase} title="Database" options={this.state.optionsDatabase} updateOptions={this.updateOptionsDatabase}/>
             </div>
+            
+            </div>
+            <div className="errorMsgPartOne">
+              {this.state.errorMsg}
             </div>
           </div>
         {/* </div> */}
@@ -114,21 +119,28 @@ class RegisterThree extends Component {
   }
 
   handleClick() {
-    let obj = {
-      status: this.state.status,
-      payrollClaims: this.state.payrollClaims,
-      branch: this.state.checkedBranch,
-      roles: this.state.checkedRoles,
-      techniques: this.state.checkedTechniques,
-      languages: this.state.checkedLanguages,
-      applications: this.state.checkedApplications,
-      database: this.state.checkedDatabase
+    if (this.state.status !== 'Status') {
+      let obj = {
+        status: this.state.status,
+        payrollClaims: this.state.payrollClaims,
+        branch: this.state.checkedBranch,
+        roles: this.state.checkedRoles,
+        techniques: this.state.checkedTechniques,
+        languages: this.state.checkedLanguages,
+        applications: this.state.checkedApplications,
+        database: this.state.checkedDatabase
+      }
+      console.log(obj);
+      // this.props.updateRegData2(obj);
+      // this.props.updateView('registerThree');
+      this.props.dispatch(actions.actionUpdateRegisterPartThree(obj));
+      this.props.history.push('/register/p4');
+    } else {
+      this.setState({
+        errorMsg: 'Please specify your current status'
+      });
     }
-    console.log(obj);
-    // this.props.updateRegData2(obj);
-    // this.props.updateView('registerThree');
-    this.props.dispatch(actions.actionUpdateRegisterPartThree(obj));
-    this.props.history.push('/register/p4');
+    
   }
   updateOptionsBranch(option) {
     let options = this.state.optionsBranch;

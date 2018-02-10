@@ -27,10 +27,10 @@ class Basic extends Component {
     return (
       <div className="flexCenter">
         <div className="navBox startScreen">
-          <button className="btn btn-main" onClick={this.register}>Sign up</button>
+          <button className="btn btn-main" onClick={this.register}>Register</button>
           <div>
-            <button className="btn btn-main fb-btn" onClick={this.fbAuth}><i className="fa fa-facebook-official" aria-hidden="true"></i> Sign up</button>
-            <button className="btn btn-main google-btn" onClick={this.googleAuth}><i className="fa fa-google" aria-hidden="true"></i> sign up</button>
+            <button className="btn fb-btn" onClick={this.fbAuth}><i className="fa fa-facebook-official" aria-hidden="true"></i> Register</button>
+            <button className="btn google-btn" onClick={this.googleAuth}><i className="fa fa-google" aria-hidden="true"></i> Register</button>
           </div>
         </div>
       </div>
@@ -49,7 +49,7 @@ class Basic extends Component {
     firebase.auth().signInWithPopup(provider)
     .then( (result, err) => {
 			if (err) {
-        alert(err);
+        console.log(err);
       }
       console.log(result);
       let split = result.user.displayName.split(' ');

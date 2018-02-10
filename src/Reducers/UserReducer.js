@@ -3,7 +3,6 @@
 const UserReducer = (state=initialState, action) => {
   switch(action.type) {
     case 'UPDATE_USEROBJ': 
-    console.log('reducer');
     state = {...state, userObj: action.payload}
     break;
     case 'UPDATE_FBUSERDATA':

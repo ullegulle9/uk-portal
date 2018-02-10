@@ -38,5 +38,14 @@ export const actionUpdateRegisterPartThree = (obj) => {
   }
 }
 
+export const actionUpdateRegisterEdit = (bool) => {
+  return {
+    type: 'UPDATE_EDIT',
+    payload: bool
+  }
+}
+
+
+
 
 

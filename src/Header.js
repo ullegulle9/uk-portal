@@ -1,16 +1,8 @@
-// import React, { Component } from 'react';
-// import logo from './logo.svg';
 import './App.css';
-import MainContent from './MainContent.js';
-import Footer from './Footer.js';
 import firebase from 'firebase';
-// import Register from './Register/Register';
-// import Basic from './Basic';
 import React, { Component } from "react";
 import * as actions from './Actions/Actions';
-// import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-// import { BrowserRouter as Router, Route} from 'react-router-dom';
 
 class Header extends Component {
   constructor(props) {
@@ -35,7 +27,7 @@ class Header extends Component {
     return (
       <header className="App-header">
         <div className="title">
-          <span className="titleOne">Republic IT </span>
+          <span className="titleOne">IT Republic </span>
           <span className="titleTwo">portal</span>
         </div>
         {logOut}

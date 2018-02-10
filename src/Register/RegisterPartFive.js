@@ -43,19 +43,26 @@ class RegisterFive extends Component {
     );
   }
 
-  componentDidMount() {
-    console.log(this.props.user);
-  }
-
   confirmClick(ev) {
+    console.log(new Date());
     if (this.state.checked) {
-      let fb = firebase.database();
-      fb.ref(`users/${this.props.user.userObj.uid}`).set({
-        contact_details: this.props.register.partOne,
-        profile: this.props.register.partTwo,
-        status: this.props.register.partThree
-      });
-      this.props.history.push('/register/cl');
+      let user = firebase.auth().currentUser;
+      user.reload();
+      if (user.emailVerified) {
+        let fb = firebase.database();
+        fb.ref(`users/${this.props.user.userObj.uid}`).set({
+          contact_details: this.props.register.partOne,
+          profile: this.props.register.partTwo,
+          status: this.props.register.partThree,
+          timeStamp: new Date().toString()
+        });
+        this.props.history.push('/register/cl');
+      } else if (!user.emailVerified) {
+        this.setState({
+          errorMsg: 'Email has not been verified! Please click the link in the verification email sent to your email address and try again.'
+        })
+      }
+      
     } else {
       this.setState({
         errorMsg: 'You need to accept the terms to submit!'
@@ -70,8 +77,6 @@ class RegisterFive extends Component {
   handleConfirmCheck(ev) {
     this.setState({
       checked: !this.state.checked
-    }, () => {
-      console.log(this.state.checked);
     });
   }
 }

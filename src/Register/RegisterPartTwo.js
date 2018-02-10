@@ -50,7 +50,6 @@ class RegisterTwo extends Component {
     }
   }
   render() {
-    console.log(this.props.register);
     return (
       <div className="registerTwo">
         <div className="regTitleCont">

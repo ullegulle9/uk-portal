@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../App.css';
 import {connect} from 'react-redux';
+import * as actions from '../Actions/Actions';
 
 class PartOneSummary extends Component {
   constructor(props) {
@@ -70,7 +71,12 @@ class PartOneSummary extends Component {
   }
 
   editClick(ev) {
-    this.props.p.history.push('/register/p1');
+    new Promise(res => {
+      this.props.dispatch(actions.actionUpdateRegisterEdit(true));
+      res();
+    }).then(() => {
+      this.props.p.history.push('/register/p1');
+    })
   }
 }
 

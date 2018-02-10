@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import '../App.css';
-import firebase from 'firebase';
 import {connect} from 'react-redux';
-// import Select from './BasicComponents/Select.js';
 
 class Confirmation extends Component {
   render() {

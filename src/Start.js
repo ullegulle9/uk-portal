@@ -56,14 +56,12 @@ class Start extends Component {
   login() {
     firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.pw)
     .then( ( result ) => {
-      // console.log(result);
+      console.log(result);
       this.props.dispatch(actions.actionUpdateUserObj(result));
-      console.log(this.props.user.userObj);
       this.props.history.push('/my-page');
     }).catch(error => {
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      console.log(errorCode, errorMessage);
+      console.log(error);
+      let errorMessage = error.message;
       this.setState({
         errorMsg: errorMessage
       });
@@ -71,12 +69,8 @@ class Start extends Component {
   }
 
   fbAuth() {
-    var provider = new firebase.auth.FacebookAuthProvider();
-    firebase.auth().signInWithPopup(provider)
-    .then( (result, err) => {
-			if (err) {
-        alert(err);
-      }
+    let provider = new firebase.auth.FacebookAuthProvider();
+    firebase.auth().signInWithPopup(provider).then((result) => {
       let split = result.user.displayName.split(' ');
       let firstName = split[0];
       let lastName = split[split.length - 1];
@@ -88,51 +82,45 @@ class Start extends Component {
         phoneNumber: result.user.phoneNumber,
         uid: result.user.uid
       };
-      let checkEmailDb = new Promise( (res, rej) => {
+      new Promise( (res, rej) => {
         let fb = firebase.database();
         fb.ref().child('users')
         .child(result.user.uid)
         .once('value', snap => {
           let data = snap.val();
-          console.log(data);
           if (data) {
             res('Registered user');
           } else {
             rej();
           }
-          // let obj;
-          // let id;
-          // for (let o in data) {
-          //   id = o;
-          //   obj = data[o];
-          // }
-          // console.log(obj, id);
-          // console.log(snap.ref);
         })
       }).then( (res) => {
         this.props.dispatch(actions.actionUpdateUserObj(obj));
-        console.log(this.props.user.userObj);
-        console.log(res);
         this.props.history.push('/my-page');
       }).catch( () => {
-        console.log('catch');
+        this.setState({
+          errorMsg: 'This email address has not been registered! Please proceed to register page.'
+        })
+        let user = firebase.auth().currentUser;
+        user.delete().then(() => {
+          console.log('user deleted');
+        }).catch((error) => {
+          console.log(error);
+        });
       })
+    }).catch(err => {
+      this.setState({
+        errorMsg: err.message
+      });
     })
   }
 
   googleAuth() {
-		var provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithPopup(provider)
-    .then( (result, err) => {
-			if (err) {
-        alert(err);
-      }
+		let provider = new firebase.auth.GoogleAuthProvider();
+    firebase.auth().signInWithPopup(provider).then((result) => {
       let split = result.user.displayName.split(' ');
-      // console.log(split);
       let firstName = split[0];
       let lastName = split[split.length - 1];
-      console.log(firstName, lastName);
-      console.log(result.user);
       let obj = {
         firstName: firstName,
         lastName: lastName,
@@ -141,13 +129,12 @@ class Start extends Component {
         phoneNumber: result.user.phoneNumber,
         uid: result.user.uid
       }
-      let checkEmailDb = new Promise( (res, rej) => {
+      new Promise( (res, rej) => {
         let fb = firebase.database();
         fb.ref().child('users')
         .child(result.user.uid)
         .once('value', snap => {
           let data = snap.val();
-          console.log(data);
           if (data) {
             res('Registered user');
           } else {
@@ -156,13 +143,23 @@ class Start extends Component {
         })
       }).then( (res) => {
         this.props.dispatch(actions.actionUpdateUserObj(obj));
-        console.log(this.props.user.userObj);
-        console.log(res);
         this.props.history.push('/my-page');
       }).catch( () => {
-        console.log('catch');
+        this.setState({
+          errorMsg: 'This email address has not been registered! Please proceed to register page.'
+        })
+        let user = firebase.auth().currentUser;
+        user.delete().then(() => {
+          console.log('user deleted');
+        }).catch((error) => {
+          console.log(error);
+        });
       })
       // this.props.history.push('/register/p1');
+    }).catch(err => {
+      this.setState({
+        errorMsg: err.message
+      });
     })
   };
   

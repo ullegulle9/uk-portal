@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
-import Register from './Register/Register.js';
 import firebase from 'firebase';
 import Basic from './Basic';
-// import {
-//   NavLink,
-//   HashRouter
-// } from "react-router-dom";
 import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import Start from './Start';
 import RegisterOne from './Register/RegisterPartOne.js';
@@ -16,7 +11,10 @@ import RegisterFour from './Register/RegisterPartFour';
 import RegisterFive from './Register/RegisterPartFive';
 import Confirmation from './Register/Confirmation';
 import UserIFStart from './UserIF/Start';
-// import googleLogo from 'googleLogo.svg';
+import AdminLogin from './AdminIF/AdminLogin';
+import AdminPage from './AdminIF/AdminPage';
+import UserPage from './AdminIF/UserPage';
+
 import {connect} from 'react-redux';
 
 var config = {
@@ -56,6 +54,9 @@ class MainContent extends Component {
               <Route path='/register/p5' exact render={props =>  <RegisterFive {...props} />}></Route>
               <Route path='/register/cl' exact render={props =>  <Confirmation {...props} />}></Route>
             <Route path='/my-page' exact render={props =>  <UserIFStart {...props} />}></Route>
+            <Route path='/admin' exact render={props =>  <AdminLogin {...props} />}></Route>
+              <Route path='/admin/user/:id' exact render={props =>  <UserPage {...props} />}></Route>
+              <Route path='/admin/start' exact render={props =>  <AdminPage {...props} />}></Route>
           </Switch>
         </Router>
       </div>
@@ -63,7 +64,6 @@ class MainContent extends Component {
   }
 
   componentDidMount() {
-    console.log('main');
   }
 
   updateUserObj(obj) {

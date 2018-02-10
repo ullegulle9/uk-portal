@@ -25,16 +25,16 @@ class Profile extends Component {
     this.toggleEditCV = this.toggleEditCV.bind(this);
     this.handleCVUpload = this.handleCVUpload.bind(this);
     this.handleAvatarUpload = this.handleAvatarUpload.bind(this);
+    this.downloadCV = this.downloadCV.bind(this);
   }
   render() {
-    console.log('PROFILE RENDER', this.props.cvObj.title);
     let branchList;
     if (this.props.regData.branch) {
       branchList = this.props.regData.branch.map((x, i) => {
         if (i === this.props.regData.branch.length - 1) {
           return <span key={x}>{x}</span>
         } else {
-          return <span key={x}>{x}</span>
+          return <span key={x}>{x},</span>
         }
       });
     } else {
@@ -134,7 +134,7 @@ class Profile extends Component {
     } else {
       bio = <div className="bioText">
       <textarea className="" value={this.state.bioText} onChange={this.updateBio} />
-      <button className="btn btn-main" onClick={this.submitBioClick} >Submit change</button>
+      <button className="btn btn-main btn-sml" onClick={this.submitBioClick} >Submit change</button>
     </div>
     }
 
@@ -145,23 +145,27 @@ class Profile extends Component {
         <div>
       <div className="uploadDiv">
         <input type="file" className="upload" id="cvUpload" onChange={this.handleCVUpload}/>
-        <label htmlFor="cvUpload"> <i className="material-icons">{"file_upload"}</i> {this.state.cvUploadTitle}</label>
+        <label htmlFor="cvUpload"> <i className="material-icons">{"file_upload"}</i> Upload new CV...</label>
       </div>
       <span className="errorMsgUpload">{this.state.cvUploadErr}</span>
       </div>
       <div>
       <div className="uploadDiv">
         <input type="file" className="upload" id="avatarUpload" onChange={this.handleAvatarUpload}/>
-        <label htmlFor="avatarUpload"> <i className="material-icons">{"file_upload"}</i>{this.state.avatarUploadTitle}</label>
+        <label htmlFor="avatarUpload"> <i className="material-icons">{"file_upload"}</i>Upload new profile picture...</label>
       </div>
       <span className="errorMsgUpload">{this.state.avatarUploadErr}</span>
       </div>
       </div>
     
     } else {
-      cvAvatar = <div className="bioText">
-      <span> CV: {this.props.cvObj.title}</span>
-      <img src={this.props.avatarObj.downloadUrl} alt="" className="profilePic"/>
+      cvAvatar = <div className="cvAvatar">
+      <div className="cv">
+        <span>CV: {this.props.cvObj.title}</span><button className="iconBtn"><a href={this.props.cvObj.downloadUrl} className="cvUploadIcon" ><i className="material-icons">file_download</i> </a></button>
+      </div>
+      <div className="avatar">
+        <img src={this.props.avatarObj.downloadUrl} alt="" className="profilePic-sml"/>
+      </div>
     </div>
     }
     
@@ -234,7 +238,6 @@ class Profile extends Component {
   }
 
   submitBioClick(ev) {
-    console.log(this.state.bioText);
     let uid = this.props.user.userObj.uid;
     firebase.database().ref(`users/${uid}/profile/` ).update({
       bio: this.state.bioText
@@ -256,29 +259,30 @@ class Profile extends Component {
         cvUploadErr: 'File format not supported! Supported formats are .pdf, .odt, .docx and .doc'
       });
     } else {
-      console.log(this.props.user);
       let storageRef = firebase.storage().ref(`cvs/${this.props.user.fbUserData.contact_details.emailAddress}/` + file.name);
-      storageRef.put(file);
-      this.setState({
-        cvUploadTitle: file.name,
-        cvUploadErr: ''
-      });
-      let fb = firebase.database();
-      fb.ref(`users/${uid}/profile/`)
-      .update({
-        cvUploadTitle: file.name
-      });
-      let edit = !this.state.cvEdit;
-      this.setState({
-        cvEdit: edit
-      });
+      new Promise(res => {
+        storageRef.put(file);
+        res();
+      }).then(()=> {
+        let fb = firebase.database();
+        fb.ref(`users/${uid}/profile/`)
+        .update({
+          cvUploadTitle: file.name
+        });
+        this.setState({
+          cvUploadTitle: file.name,
+          cvUploadErr: '',
+          cvEdit: !this.state.cvEdit
+        });
+      })
+      
+      
     }
   }
 
   handleAvatarUpload(ev) {
     let uid = this.props.user.userObj.uid;
     let file = ev.target.files[0];
-    console.log(file.type);
     if (file.size > 3145728) {
       this.setState({
         avatarUploadErr: 'File size too big! Max size 3MB'
@@ -288,22 +292,38 @@ class Profile extends Component {
         avatarUploadErr: 'File format not supported! Supported formats are .png and .jpg/.jpeg'
       });
     } else {
-      let storageRef = firebase.storage().ref(`avatars/${this.props.register.partOne.emailAddress}/` + file.name);
-      storageRef.put(file);
+      let storageRef = firebase.storage().ref(`avatars/${this.props.user.fbUserData.contact_details.emailAddress}/` + file.name);
+      new Promise(res => {
+        storageRef.put(file);
+        res();
+      }).then(() => {
+        let fb = firebase.database();
+        fb.ref(`users/${uid}/profile/`)
+        .update({
+          avatarUploadTitle: file.name
+        });
         this.setState({
-        avatarUploadTitle: file.name,
-        avatarUploadErr: ''
-      });
-      let fb = firebase.database();
-      fb.ref(`users/${uid}/profile/`)
-      .update({
-        avatarUploadTitle: file.name
-      });
-      let edit = !this.state.cvEdit;
-      this.setState({
-        cvEdit: edit
-      });
+          avatarUploadTitle: file.name,
+          avatarUploadErr: '',
+          cvEdit: !this.state.cvEdit
+        });
+      })
     }
+  }
+
+  downloadCV() {
+    // let storage = firebase.storage().ref();
+    
+    // storage.child(`avatars/${this.props.user.fbUserData.contact_details.emailAddress}/${this.props.user.fbUserData.profile.avatarUploadTitle}`)
+    // .getDownloadURL().then(url => {
+    //   var xhr = new XMLHttpRequest();
+    //   xhr.responseType = 'blob';
+    //   xhr.onload = function(event) {
+    //     var blob = xhr.response;
+    //   };
+    //   xhr.open('GET', url);
+    //   xhr.send();
+    // });
   }
 }
 

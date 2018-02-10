@@ -2,7 +2,6 @@ const registerReducer = (state=initialState, action) => {
   
   switch(action.type) {
     case 'UPDATE_PARTONE': 
-    console.log('reducer');
     state = {...state, partOne: action.payload}
     break;
     case 'UPDATE_PARTTWO': 
@@ -10,6 +9,9 @@ const registerReducer = (state=initialState, action) => {
     break;
     case 'UPDATE_PARTTHREE': 
     state = {...state, partThree: action.payload}
+    break;
+    case 'UPDATE_EDIT': 
+    state = {...state, edit: action.payload}
     break;
     default: 
     state = Object.assign({}, state);
@@ -19,9 +21,9 @@ const registerReducer = (state=initialState, action) => {
 
 const initialState = {
   partOne: {
-    firstName: 'Marre',
+    firstName: '',
     lastName: '',
-    emailAddress: 'aap@mail.com',
+    emailAddress: '',
     dateOfBirth: '',
     emailCopy: '',
     pw: '',
@@ -46,7 +48,8 @@ const initialState = {
     database: [],
     status: '',
     payRollClaims: ''
-  }
+  },
+  edit: false
 }
 
 export default registerReducer;

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import '../App.css';
-import Select from '../BasicComponents/Select';
-import Start from '../Start';
 import {connect} from 'react-redux';
 
 class CategoryBox extends Component {

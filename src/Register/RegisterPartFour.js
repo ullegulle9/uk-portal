@@ -5,6 +5,7 @@ import PartOneSummary from './PartOneSummary';
 import PartTwoSummary from './PartTwoSummary';
 import PartThreeSummary from './PartThreeSummary';
 import {connect} from 'react-redux';
+import * as actions from '../Actions/Actions';
 
 class RegisterFour extends Component {
   constructor(props) {
@@ -16,7 +17,8 @@ class RegisterFour extends Component {
       hasData: false
     }
     this.nextClick = this.nextClick.bind(this);
-    // this.updateStatus = this.updateStatus.bind(this);
+    this.updateRegData2 = this.updateRegData2.bind(this);
+    this.updateRegData3 = this.updateRegData3.bind(this);
   }
   render() {
     console.log(this.state.regData1);
@@ -28,10 +30,10 @@ class RegisterFour extends Component {
             <PartOneSummary p={this.props} regData={this.state.regData1}></PartOneSummary>
           </div>
           <div>
-            <PartTwoSummary p={this.props} regData={this.state.regData2}></PartTwoSummary>
+            <PartTwoSummary updateRegData={this.updateRegData2} regData={this.state.regData2}></PartTwoSummary>
           </div>
           <div>
-            <PartThreeSummary p={this.props} regData={this.state.regData3}></PartThreeSummary>
+            <PartThreeSummary updateRegData={this.updateRegData3} regData={this.state.regData3}></PartThreeSummary>
           </div>
         </div>
     } else {
@@ -73,6 +75,20 @@ class RegisterFour extends Component {
   nextClick() {
     this.props.history.push('/register/p5');
   }
+
+  updateRegData2(obj) {
+    this.props.dispatch(actions.actionUpdateRegisterPartTwo(obj));
+    this.setState({
+      regData2: obj
+    });
+  } 
+
+  updateRegData3(obj) {
+    this.props.dispatch(actions.actionUpdateRegisterPartThree(obj));
+    this.setState({
+      regData3: obj
+    });
+  } 
 }
 
 function mapStateToProps(state) {
