@@ -1,7 +1,6 @@
 import '../App.css';
 import firebase from 'firebase';
 import React, { Component } from "react";
-import * as actions from '../Actions/Actions';
 import {connect} from 'react-redux';
 import List from '../Register/List';
 
@@ -17,9 +16,6 @@ class AdminLogin extends Component {
     }
     this.getAvatar = this.getAvatar.bind(this);
     this.getCV = this.getCV.bind(this);
-    // this.adminLogin = this.adminLogin.bind(this);
-    // this.handleEmailChange = this.handleEmailChange.bind(this);
-    // this.handlePWChange = this.handlePWChange.bind(this);
   }
   render() {
     return (
@@ -147,6 +143,9 @@ class AdminLogin extends Component {
   }
 
   componentDidMount() {
+    if (!this.props.user.userObj) {
+      this.props.history.push('/admin');
+    }
     let uid = this.props.match.params.id;
     let fb = firebase.database();
     fb.ref(`users/${uid}`).once('value').then(snap => {
@@ -177,7 +176,6 @@ class AdminLogin extends Component {
         avatarObj: avatarObj
       });
     }).catch(err => {
-      console.log('avatarErr', err);
       this.setState({
         avatarObj: {
           downloadUrl: 'https://www.logicprohelp.com/forum/styles/canvas/theme/images/no_avatar.jpg'
@@ -196,12 +194,10 @@ class AdminLogin extends Component {
       size: metaData.size,
       hash: metaData.md5Hash
     }
-    console.log(cvFileObj);
     this.setState({
       cvObj: cvFileObj
     });
     }).catch(err => {
-      console.log('cvErr', err);
       this.setState({
         cvObj: {
           title: 'No CV uploaded yet'
@@ -209,51 +205,6 @@ class AdminLogin extends Component {
       })
     });
   }
-
-  // handleEmailChange(ev) {
-  //   this.setState({
-  //     email: ev.target.value
-  //   });
-  // }
-
-  // handlePWChange(ev) {
-  //   this.setState({
-  //     pw: ev.target.value
-  //   });
-  // }
-
-  // adminLogin() {
-  //   firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.pw)
-  //   .then( ( result ) => {
-  //     console.log(result);
-  //     if (result.uid === 'CosFo1S36UYpN1xmBogZHDJETQo2') {
-  //       this.props.dispatch(actions.actionUpdateUserObj(result));
-  //       this.props.history.push('admin/start');
-  //     } else {
-  //       this.setState({
-  //         errorMsg: 'not admin'
-  //       });
-  //       this.props.dispatch(actions.actionUpdateUserObj(null));
-  //     }
-      
-  //     // this.props.history.push('/my-page');
-  //   }).catch(error => {
-  //     console.log(error);
-  //     // let errorMessage = error.message;
-  //     // this.setState({
-  //     //   errorMsg: errorMessage
-  //     // });
-  //   });
-  // }
-
-  // findAllAvailable() {
-  //   let fb = firebase.database();
-  //   fb.ref().child('users').orderByChild('status/status')
-  //   .equalTo('Available')
-  //   .once('value', snap => {
-  //     console.log(snap.val());
-  //   })
-  // }
 }
 
 function mapStateToProps(state) {

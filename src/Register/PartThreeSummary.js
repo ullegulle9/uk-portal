@@ -149,7 +149,6 @@ class PartThreeSummary extends Component {
       payrollClaims: this.props.regData.payrollClaims,
       status: this.props.regData.status
     }, () => {
-      console.log(this.state.regData);
     });
   }
 
@@ -173,7 +172,6 @@ class PartThreeSummary extends Component {
     this.setState({
       regData: obj
     }, () => {
-      console.log(this.state.regData);
       this.props.updateRegData(this.state.regData);
       this.setState({
         edit: !this.state.edit
@@ -189,7 +187,6 @@ class PartThreeSummary extends Component {
     this.setState({
       regData: obj
     }, () => {
-      // console.log(this.state.regData);
       this.props.updateRegData(this.state.regData);
     })
   }
@@ -215,7 +212,6 @@ class PartThreeSummary extends Component {
     this.setState({
       regData: obj
     }, () => {
-      // console.log(this.state.regData);
       this.props.updateRegData(this.state.regData);
     })
   }
@@ -228,7 +224,6 @@ class PartThreeSummary extends Component {
     this.setState({
       regData: obj
     }, () => {
-      // console.log(this.state.regData);
       this.props.updateRegData(this.state.regData);
     })
   }
@@ -241,7 +236,6 @@ class PartThreeSummary extends Component {
     this.setState({
       regData: obj
     }, () => {
-      // console.log(this.state.regData);
       this.props.updateRegData(this.state.regData);
     })
   }
@@ -254,13 +248,11 @@ class PartThreeSummary extends Component {
     this.setState({
       regData: obj
     }, () => {
-      // console.log(this.state.regData);
       this.props.updateRegData(this.state.regData);
     })
   }
 
   handlePayRollClaims(ev) {
-    console.log(ev.target.value);
     this.setState({
       payrollClaims: ev.target.value
     });
@@ -272,7 +264,6 @@ class PartThreeSummary extends Component {
     this.setState({
       regData: obj
     }, () => {
-      console.log(this.state.regData);
       this.props.updateRegData(this.state.regData);
       this.setState({
         edit: !this.state.edit

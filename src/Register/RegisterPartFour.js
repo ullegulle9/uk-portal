@@ -21,7 +21,6 @@ class RegisterFour extends Component {
     this.updateRegData3 = this.updateRegData3.bind(this);
   }
   render() {
-    console.log(this.state.regData1);
     let view;
     if (this.state.hasData) {
       view = 
@@ -57,9 +56,9 @@ class RegisterFour extends Component {
   }
 
   componentDidMount() {
-    // if (!this.props.user.userObj) {
-    //   this.props.history.push('/');
-    // }
+    if (!this.props.user.userObj) {
+      this.props.history.push('/');
+    }
     this.setState({
       regData1: this.props.register.partOne,
       regData2: this.props.register.partTwo,
@@ -68,7 +67,6 @@ class RegisterFour extends Component {
       this.setState({
         hasData: true
       });
-      console.log(this.state.regData1, this.state.regData2, this.state.regData3);
     });
   }
 

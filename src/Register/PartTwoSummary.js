@@ -144,7 +144,6 @@ class PartTwoSummary extends Component {
     this.setState({
       regData: obj
     }, () => {
-      // console.log(this.state.regData);
       this.props.updateRegData(this.state.regData);
     })
   }
@@ -157,7 +156,6 @@ class PartTwoSummary extends Component {
     this.setState({
       regData: obj
     }, () => {
-      // console.log(this.state.regData);
       this.props.updateRegData(this.state.regData);
     })
   }
@@ -170,7 +168,6 @@ class PartTwoSummary extends Component {
     this.setState({
       regData: obj
     }, () => {
-      // console.log(this.state.regData);
       this.props.updateRegData(this.state.regData);
     })
   }
@@ -183,7 +180,6 @@ class PartTwoSummary extends Component {
     this.setState({
       regData: obj
     }, () => {
-      // console.log(this.state.regData);
       this.props.updateRegData(this.state.regData);
     })
   }
@@ -196,7 +192,6 @@ class PartTwoSummary extends Component {
     this.setState({
       regData: obj
     }, () => {
-      // console.log(this.state.regData);
       this.props.updateRegData(this.state.regData);
     })
   }
@@ -209,7 +204,6 @@ class PartTwoSummary extends Component {
     this.setState({
       regData: obj
     }, () => {
-      // console.log(this.state.regData);
       this.props.updateRegData(this.state.regData);
     })
   }
@@ -226,7 +220,6 @@ class PartTwoSummary extends Component {
     this.setState({
       regData: obj
     }, () => {
-      console.log(this.state.regData);
       this.props.updateRegData(this.state.regData);
       this.setState({
         edit: !this.state.edit

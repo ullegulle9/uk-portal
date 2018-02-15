@@ -58,7 +58,6 @@ class Register extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.location);
   }
 
   updateView(view) {

@@ -62,11 +62,9 @@ class PartOneSummary extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.regData);
     this.setState({
       regData: this.props.regData
     }, () => {
-      console.log(this.state.regData);
     });
   }
 

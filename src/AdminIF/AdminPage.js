@@ -1,9 +1,7 @@
 import '../App.css';
 import firebase from 'firebase';
 import React, { Component } from "react";
-import * as actions from '../Actions/Actions';
 import {connect} from 'react-redux';
-import Link from 'react-router-redux';
 
 class AdminPage extends Component {
   constructor(props) {
@@ -21,7 +19,6 @@ class AdminPage extends Component {
   }
   render() {
     let availList = this.state.available.map(user => {
-      console.log(user);
       return <div key={user.uid} className="resultBox">
       <div className="leftFlex">
       <div>
@@ -58,12 +55,13 @@ class AdminPage extends Component {
   }
 
   componentDidMount() {
-    console.log('mount');
+    if (!this.props.user.userObj) {
+      this.props.history.push('/admin');
+    }
   }
 
   click(ev) {
     let id = ev.target.parentElement.getAttribute('data-id');
-    console.log(id);
     this.props.history.push(`/admin/user/${id}`);
   }
 

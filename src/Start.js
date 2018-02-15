@@ -56,11 +56,9 @@ class Start extends Component {
   login() {
     firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.pw)
     .then( ( result ) => {
-      console.log(result);
       this.props.dispatch(actions.actionUpdateUserObj(result));
       this.props.history.push('/my-page');
     }).catch(error => {
-      console.log(error);
       let errorMessage = error.message;
       this.setState({
         errorMsg: errorMessage
@@ -103,7 +101,6 @@ class Start extends Component {
         })
         let user = firebase.auth().currentUser;
         user.delete().then(() => {
-          console.log('user deleted');
         }).catch((error) => {
           console.log(error);
         });

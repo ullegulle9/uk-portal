@@ -12,7 +12,6 @@ class AdminLogin extends Component {
       pw: '',
       errorMsg: ''
     }
-    this.findAllAvailable = this.findAllAvailable.bind(this);
     this.adminLogin = this.adminLogin.bind(this);
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handlePWChange = this.handlePWChange.bind(this);
@@ -49,34 +48,21 @@ class AdminLogin extends Component {
   adminLogin() {
     firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.pw)
     .then( ( result ) => {
-      console.log(result);
       if (result.uid === 'CosFo1S36UYpN1xmBogZHDJETQo2') {
         this.props.dispatch(actions.actionUpdateUserObj(result));
         this.props.history.push('admin/start');
       } else {
         this.setState({
-          errorMsg: 'not admin'
+          errorMsg: 'This user is not an admin'
         });
         this.props.dispatch(actions.actionUpdateUserObj(null));
       }
-      
-      // this.props.history.push('/my-page');
     }).catch(error => {
-      console.log(error);
-      // let errorMessage = error.message;
-      // this.setState({
-      //   errorMsg: errorMessage
-      // });
+      let errorMessage = error.message;
+      this.setState({
+        errorMsg: errorMessage
+      });
     });
-  }
-
-  findAllAvailable() {
-    let fb = firebase.database();
-    fb.ref().child('users').orderByChild('status/status')
-    .equalTo('Available')
-    .once('value', snap => {
-      console.log(snap.val());
-    })
   }
 }
 

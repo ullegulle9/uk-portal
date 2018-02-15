@@ -119,9 +119,9 @@ class RegisterTwo extends Component {
   }
 
   componentDidMount() {
-    // if (!this.props.user.userObj) {
-    //   this.props.history.push('/');
-    // }
+    if (!this.props.user.userObj) {
+      this.props.history.push('/');
+    }
   }
 
   handleClick() {
@@ -164,7 +164,6 @@ class RegisterTwo extends Component {
 
   handleAvatarUpload(ev) {
     let file = ev.target.files[0];
-    console.log(file.type);
     if (file.size > 3145728) {
       this.setState({
         avatarUploadErr: 'File size too big! Max size 3MB'

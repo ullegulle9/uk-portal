@@ -101,9 +101,9 @@ class RegisterThree extends Component {
   }
 
   componentDidMount() {
-    // if (!this.props.user.userObj) {
-    //   this.props.history.push('/');
-    // }
+    if (!this.props.user.userObj) {
+      this.props.history.push('/');
+    }
   }
 
   updateStatus(status) {
@@ -130,7 +130,6 @@ class RegisterThree extends Component {
         applications: this.state.checkedApplications,
         database: this.state.checkedDatabase
       }
-      console.log(obj);
       // this.props.updateRegData2(obj);
       // this.props.updateView('registerThree');
       this.props.dispatch(actions.actionUpdateRegisterPartThree(obj));

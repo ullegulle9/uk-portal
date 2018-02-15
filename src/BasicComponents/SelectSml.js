@@ -50,7 +50,6 @@ class SelectSml extends Component {
   }
   
   handleClick(ev) {
-    // console.log(ev.target.innerHTML);
     this.props.updateStatus(ev.target.innerHTML);
     this.toggleDropdown();
   }

@@ -1,5 +1,3 @@
-// import { User } from "firebase";
-
 const UserReducer = (state=initialState, action) => {
   switch(action.type) {
     case 'UPDATE_USEROBJ': 

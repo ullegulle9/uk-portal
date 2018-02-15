@@ -43,6 +43,12 @@ class RegisterFive extends Component {
     );
   }
 
+  componentDidMount() {
+    if (!this.props.user.userObj) {
+      this.props.history.push('/');
+    }
+  }
+
   confirmClick(ev) {
     console.log(new Date());
     if (this.state.checked) {
@@ -68,10 +74,6 @@ class RegisterFive extends Component {
         errorMsg: 'You need to accept the terms to submit!'
       })
     }
-    
-    // fb.ref('/users').once('value', snap => {
-    //   console.log(snap.val());
-    // })
   }
 
   handleConfirmCheck(ev) {

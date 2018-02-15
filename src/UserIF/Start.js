@@ -115,7 +115,6 @@ class UserIFStart extends Component {
         cvObj: cvFileObj
       });
     }).catch(err => {
-      console.log('cvErr', err);
       this.setState({
         cvObj: {
           title: 'No CV uploaded yet'
@@ -139,7 +138,6 @@ class UserIFStart extends Component {
         avatarObj: avatarObj
       });
     }).catch(err => {
-      console.log('avatarErr', err);
       this.setState({
         avatarObj: {
           downloadUrl: 'https://www.logicprohelp.com/forum/styles/canvas/theme/images/no_avatar.jpg'
